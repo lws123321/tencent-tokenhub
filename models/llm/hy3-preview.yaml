@@ -1,0 +1,59 @@
+model: hy3-preview
+label:
+  zh_Hans: hy3-preview
+  en_US: hy3-preview
+model_type: llm
+features:
+  - agent-thought
+  - tool-call
+  - multi-tool-call
+  - stream-tool-call
+model_properties:
+  mode: chat
+  context_size: 256000
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+    type: float
+    default: 0.7
+    min: 0.0
+    max: 2.0
+    help:
+      zh_Hans: 控制生成结果的多样性和随机性。
+      en_US: Control the diversity and randomness of generated results.
+  - name: top_p
+    use_template: top_p
+    type: float
+    default: 1.0
+    min: 0.0
+    max: 1.0
+    help:
+      zh_Hans: 核采样参数，控制输出多样性。
+      en_US: Nucleus sampling parameter for output diversity.
+  - name: max_tokens
+    use_template: max_tokens
+    type: int
+    default: 4096
+    min: 1
+    max: 128000
+    help:
+      zh_Hans: 限制最大输出 Token 数。
+      en_US: Limit maximum output tokens.
+  - name: reasoning_effort
+    type: string
+    default: "no_think"
+    label:
+      zh_Hans: 思考模式
+      en_US: Reasoning Effort
+    options:
+      - "no_think"
+      - "low"
+      - "high"
+    help:
+      zh_Hans: 思考模式控制。极速响应(no_think)不启用思考，快速思考(low)进行简要推理，深度推理(high)进行详细分析。非no_think时响应会附带思考过程。
+      en_US: Control reasoning depth. no_think for fastest response, low for quick thinking, high for deep reasoning.
+pricing:
+  input: '4'
+  output: '16'
+  unit: '0.000001'
+  currency: RMB

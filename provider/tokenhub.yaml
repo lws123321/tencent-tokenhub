@@ -1,0 +1,53 @@
+provider: tokenhub
+author: lws123321
+label:
+  en_US: Tencent TokenHub
+  zh_Hans: 腾讯TokenHub
+description:
+  en_US: Tencent TokenHub model service platform, compatible with OpenAI API.
+  zh_Hans: 腾讯TokenHub大模型服务平台，兼容OpenAI API协议。
+icon_small:
+  en_US: icon_s_en.svg
+icon_large:
+  en_US: icon_l_en.svg
+background: "#EEF3FF"
+help:
+  title:
+    en_US: Get your API Key from Tencent TokenHub
+    zh_Hans: 从腾讯TokenHub获取 API Key
+  url:
+    en_US: https://console.cloud.tencent.com/tokenhub
+supported_model_types:
+  - llm
+configurate_methods:
+  - predefined-model
+provider_credential_schema:
+  credential_form_schemas:
+    - label:
+        en_US: API Key
+        zh_Hans: API Key
+      placeholder:
+        en_US: Enter your TokenHub API Key
+        zh_Hans: 在此输入您的 TokenHub API Key
+      required: true
+      type: secret-input
+      variable: api_key
+    - label:
+        en_US: API Base URL
+        zh_Hans: API 基础地址
+      placeholder:
+        en_US: "https://tokenhub.tencentmaas.com/v1"
+        zh_Hans: "https://tokenhub.tencentmaas.com/v1"
+      required: false
+      type: text-input
+      variable: api_base
+models:
+  llm:
+    position: models/llm/_position.yaml
+    predefined:
+      - "models/llm/*.yaml"
+extra:
+  python:
+    provider_source: provider/tokenhub.py
+    model_sources:
+      - models/llm/llm.py
