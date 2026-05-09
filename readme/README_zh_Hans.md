@@ -1,6 +1,6 @@
 # 腾讯 TokenHub Dify 插件
 
-腾讯 TokenHub 大模型服务平台 Dify 插件，兼容 OpenAI API 协议，支持多种大语言模型。
+腾讯 TokenHub 插件适用于 Dify，兼容 OpenAI API 协议，支持多种大语言模型。
 
 ## 介绍
 
@@ -9,28 +9,30 @@
 - 运行环境：Python 3.12
 - 认证方式：API Key（可选自定义 API Base URL）
 
-## 支持的模型
+## 支持模型
 
-| 模型名称 | model 参数值 | 特性 |
-|---------|------------|------|
-| Hy3 preview | hy3-preview | 支持思考模式(reasoning_effort) |
-| HY 2.0 Think | hunyuan-2.0-thinking-20251109 | 思考模型 |
+| 模型名称 | `model` 参数值 | 能力 |
+|---------|---------------|------|
+| Hy3 preview | hy3-preview | 工具调用、思考开关、推理深度 |
+| HY 2.0 Think | hunyuan-2.0-thinking-20251109 | 推理模型（思考常开） |
 | HY 2.0 Instruct | hunyuan-2.0-instruct-20251111 | 指令模型 |
 | Hunyuan-role | hunyuan-role-latest | 角色扮演 |
-| DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、视觉 |
-| DeepSeek-V4-Flash | deepseek-v4-flash | 工具调用 |
-| DeepSeek-V3.2 | deepseek-v3.2 | 工具调用 |
-| DeepSeek-V3.1 | deepseek-v3.1-terminus | 工具调用 |
+| DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、视觉、思考开关、推理深度 |
+| DeepSeek-V4-Flash | deepseek-v4-flash | 工具调用、思考开关、推理深度 |
+| DeepSeek-V3.2 | deepseek-v3.2 | 工具调用、思考开关、推理深度 |
+| DeepSeek-V3.1 | deepseek-v3.1-terminus | 工具调用、思考开关 |
 | DeepSeek-R1-0528 | deepseek-r1-0528 | 推理模型 |
 | DeepSeek-V3-0324 | deepseek-v3-0324 | 工具调用 |
-| GLM-5.1 | glm-5.1 | 工具调用 |
-| GLM-5V-Turbo | glm-5v-turbo | 视觉、工具调用 |
-| GLM-5-Turbo | glm-5-turbo | 工具调用 |
-| GLM-5 | glm-5 | 工具调用 |
-| Kimi-K2.6 | kimi-k2.6 | 工具调用 |
-| Kimi-K2.5 | kimi-k2.5 | 工具调用 |
-| MiniMax-M2.7 | minimax-m2.7 | 工具调用 |
-| MiniMax-M2.5 | minimax-m2.5 | 工具调用 |
+| GLM-5.1 | glm-5.1 | 工具调用、思考开关 |
+| GLM-5V-Turbo | glm-5v-turbo | 视觉、工具调用、思考开关 |
+| GLM-5-Turbo | glm-5-turbo | 工具调用、思考开关 |
+| GLM-5 | glm-5 | 工具调用、思考开关 |
+| Kimi-K2.6 | kimi-k2.6 | 工具调用、思考开关 |
+| Kimi-K2.5 | kimi-k2.5 | 工具调用、思考开关 |
+| MiniMax-M2.7 | minimax-m2.7 | 工具调用（思考常开） |
+| MiniMax-M2.5 | minimax-m2.5 | 工具调用（思考常开） |
+
+> 思考开关会透传为 `thinking: {"type": "enabled" | "disabled"}`。推理深度会透传为 `reasoning_effort: low | medium | high`，且仅在开启思考模式时生效。详情参见 [TokenHub 深度思考文档](https://cloud.tencent.com/document/product/1823/131208)。
 
 ## 安装与使用
 
