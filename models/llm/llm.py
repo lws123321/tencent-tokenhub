@@ -33,9 +33,15 @@ logger = logging.getLogger(__name__)
 
 TOKENHUB_DEFAULT_BASE_URL = "https://tokenhub.tencentmaas.com/v1"
 
-REASONING_EFFORT_MODELS = {"hy3-preview"}
+REASONING_EFFORT_MODELS = {
+    "hy3-preview",
+    "deepseek-v4-flash",
+    "deepseek-v4-pro",
+    "deepseek-v3.2",
+}
 
 THINKING_TOGGLE_MODELS = {
+    "hy3-preview",
     "deepseek-v4-pro",
     "deepseek-v4-flash",
     "deepseek-v3.2",
@@ -46,8 +52,6 @@ THINKING_TOGGLE_MODELS = {
     "glm-5",
     "kimi-k2.6",
     "kimi-k2.5",
-    "minimax-m2.7",
-    "minimax-m2.5",
 }
 
 
@@ -126,7 +130,14 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
     ) -> dict:
         """
         根据模型参数和工具列表构建额外请求参数。
-        对于支持 reasoning_effort 的模型，会将该参数传入。
+
+        - 思考模式：通过 ``thinking`` 参数控制，传递格式为
+          ``{"thinking": {"type": "enabled" | "disabled"}}``。
+        - 推理深度：通过 ``reasoning_effort`` 参数控制，可选值为
+          ``low`` / ``medium`` / ``high``。
+
+        参考腾讯云 TokenHub 文档：
+        https://cloud.tencent.com/document/product/1823/131208
         """
         kwargs: dict = {}
 
@@ -137,12 +148,21 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         if "max_tokens" in model_parameters:
             kwargs["max_tokens"] = model_parameters["max_tokens"]
 
+        extra_body: dict = {}
+
+        if model in THINKING_TOGGLE_MODELS and "thinking" in model_parameters:
+            thinking_enabled = bool(model_parameters.get("thinking"))
+            extra_body["thinking"] = {
+                "type": "enabled" if thinking_enabled else "disabled"
+            }
+
         if model in REASONING_EFFORT_MODELS:
-            reasoning_effort = model_parameters.get("reasoning_effort", "no_think")
-            if reasoning_effort and reasoning_effort != "no_think":
-                kwargs["extra_body"] = {"reasoning_effort": reasoning_effort}
-        elif model in THINKING_TOGGLE_MODELS and model_parameters.get("thinking", False):
-            kwargs["extra_body"] = {"reasoning_effort": "high"}
+            reasoning_effort = model_parameters.get("reasoning_effort")
+            if reasoning_effort and reasoning_effort in {"low", "medium", "high"}:
+                extra_body["reasoning_effort"] = reasoning_effort
+
+        if extra_body:
+            kwargs["extra_body"] = extra_body
 
         if stop:
             kwargs["stop"] = stop

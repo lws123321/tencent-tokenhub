@@ -1,7 +1,7 @@
 model: hunyuan-2.0-instruct-20251111
 label:
-  zh_Hans: hunyuan-2.0-instruct-20251111
-  en_US: hunyuan-2.0-instruct-20251111
+  zh_Hans: HY 2.0 Instruct
+  en_US: HY 2.0 Instruct
 model_type: llm
 features:
   - agent-thought

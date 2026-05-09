@@ -1,7 +1,7 @@
 model: kimi-k2.6
 label:
-  zh_Hans: kimi-k2.6
-  en_US: kimi-k2.6
+  zh_Hans: Kimi-K2.6
+  en_US: Kimi-K2.6
 model_type: llm
 features:
   - agent-thought
@@ -41,13 +41,13 @@ parameter_rules:
       en_US: Limit maximum output tokens.
   - name: thinking
     type: boolean
-    default: false
+    default: true
     label:
       zh_Hans: 思考模式
       en_US: Thinking mode
     help:
-      zh_Hans: 是否开启思考模式。
-      en_US: Whether to enable thinking mode.
+      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
+      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
 pricing:
   input: '2'
   output: '8'

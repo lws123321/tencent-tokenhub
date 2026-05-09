@@ -1,7 +1,7 @@
 model: glm-5
 label:
-  zh_Hans: glm-5
-  en_US: glm-5
+  zh_Hans: GLM-5
+  en_US: GLM-5
 model_type: llm
 features:
   - agent-thought
@@ -41,13 +41,13 @@ parameter_rules:
       en_US: Limit maximum output tokens.
   - name: thinking
     type: boolean
-    default: false
+    default: true
     label:
       zh_Hans: 思考模式
       en_US: Thinking mode
     help:
-      zh_Hans: 是否开启思考模式。
-      en_US: Whether to enable thinking mode.
+      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
+      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
 pricing:
   input: '4'
   output: '16'

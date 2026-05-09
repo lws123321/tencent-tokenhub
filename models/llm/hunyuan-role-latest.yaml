@@ -1,7 +1,7 @@
 model: hunyuan-role-latest
 label:
-  zh_Hans: hunyuan-role-latest
-  en_US: hunyuan-role-latest
+  zh_Hans: Hunyuan-role
+  en_US: Hunyuan-role
 model_type: llm
 features:
   - agent-thought

@@ -1,0 +1,48 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.0.3] - 2026-05-09
+
+### Fixed
+- Fix the request payload of the thinking-mode parameter. The plugin now forwards
+  `thinking: { "type": "enabled" | "disabled" }` per the official
+  [TokenHub thinking docs](https://cloud.tencent.com/document/product/1823/131208),
+  instead of the previously incorrect `reasoning_effort: high` payload, which could
+  cause some models to ignore the toggle or never enter thinking mode.
+
+### Added
+- Add a `reasoning_effort` parameter (`low` / `medium` / `high`) for the four models
+  that support it on the TokenHub side: `hy3-preview` (default `low`),
+  `deepseek-v4-flash`, `deepseek-v4-pro`, `deepseek-v3.2` (all default `high`).
+
+### Changed
+- Align the default `thinking` value of each model with the official docs:
+  - Default `enabled`: `deepseek-v4-flash`, `deepseek-v4-pro`, `glm-5`, `glm-5.1`,
+    `glm-5-turbo`, `glm-5v-turbo`, `kimi-k2.5`, `kimi-k2.6`.
+  - Default `disabled`: `hy3-preview`, `deepseek-v3.2`.
+- Align the `label` field of every model yaml with the "Model Name" column in the
+  official [TokenHub model list](https://cloud.tencent.com/document/product/1823/130051)
+  (e.g. `deepseek-v4-pro` -> `DeepSeek-V4-Pro`, `glm-5.1` -> `GLM-5.1`).
+- Split `hy3-preview` reasoning controls: the `reasoning_effort` options are now the
+  officially supported `[low, medium, high]` (was `[no_think, low, high]`), and the
+  thinking toggle is exposed as a separate boolean `thinking` parameter.
+
+### Removed
+- Remove the `thinking` toggle from `minimax-m2.5` and `minimax-m2.7`. The official
+  docs state thinking is always on for these two models and cannot be disabled, so
+  exposing a toggle would mislead users.
+
+## [0.0.2] - 2026-04-27
+
+### Changed
+- Bilingual README and minor wording cleanups for the Dify marketplace listing.
+
+## [0.0.1] - 2026-04-27
+
+### Added
+- Initial release. Adds the Tencent TokenHub LLM integration covering the DeepSeek,
+  Hunyuan, GLM, Kimi and MiniMax model families.

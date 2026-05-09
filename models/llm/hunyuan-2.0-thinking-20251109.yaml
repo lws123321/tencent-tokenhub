@@ -1,7 +1,7 @@
 model: hunyuan-2.0-thinking-20251109
 label:
-  zh_Hans: hunyuan-2.0-thinking-20251109
-  en_US: hunyuan-2.0-thinking-20251109
+  zh_Hans: HY 2.0 Think
+  en_US: HY 2.0 Think
 model_type: llm
 features:
   - agent-thought

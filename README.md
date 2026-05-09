@@ -13,24 +13,26 @@ Tencent TokenHub plugin for Dify. It is compatible with the OpenAI API protocol 
 
 | Model Name | `model` Value | Capabilities |
 |------------|---------------|--------------|
-| Hy3 preview | hy3-preview | Reasoning mode (`reasoning_effort`) |
-| HY 2.0 Think | hunyuan-2.0-thinking-20251109 | Reasoning model |
+| Hy3 preview | hy3-preview | Tool calling, thinking toggle, reasoning effort |
+| HY 2.0 Think | hunyuan-2.0-thinking-20251109 | Reasoning model (thinking always on) |
 | HY 2.0 Instruct | hunyuan-2.0-instruct-20251111 | Instruction model |
 | Hunyuan-role | hunyuan-role-latest | Role-play |
-| DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, vision |
-| DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling |
-| DeepSeek-V3.2 | deepseek-v3.2 | Tool calling |
-| DeepSeek-V3.1 | deepseek-v3.1-terminus | Tool calling |
+| DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, vision, thinking toggle, reasoning effort |
+| DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
+| DeepSeek-V3.2 | deepseek-v3.2 | Tool calling, thinking toggle, reasoning effort |
+| DeepSeek-V3.1 | deepseek-v3.1-terminus | Tool calling, thinking toggle |
 | DeepSeek-R1-0528 | deepseek-r1-0528 | Reasoning model |
 | DeepSeek-V3-0324 | deepseek-v3-0324 | Tool calling |
-| GLM-5.1 | glm-5.1 | Tool calling |
-| GLM-5V-Turbo | glm-5v-turbo | Vision, tool calling |
-| GLM-5-Turbo | glm-5-turbo | Tool calling |
-| GLM-5 | glm-5 | Tool calling |
-| Kimi-K2.6 | kimi-k2.6 | Tool calling |
-| Kimi-K2.5 | kimi-k2.5 | Tool calling |
-| MiniMax-M2.7 | minimax-m2.7 | Tool calling |
-| MiniMax-M2.5 | minimax-m2.5 | Tool calling |
+| GLM-5.1 | glm-5.1 | Tool calling, thinking toggle |
+| GLM-5V-Turbo | glm-5v-turbo | Vision, tool calling, thinking toggle |
+| GLM-5-Turbo | glm-5-turbo | Tool calling, thinking toggle |
+| GLM-5 | glm-5 | Tool calling, thinking toggle |
+| Kimi-K2.6 | kimi-k2.6 | Tool calling, thinking toggle |
+| Kimi-K2.5 | kimi-k2.5 | Tool calling, thinking toggle |
+| MiniMax-M2.7 | minimax-m2.7 | Tool calling (thinking always on) |
+| MiniMax-M2.5 | minimax-m2.5 | Tool calling (thinking always on) |
+
+> Thinking toggle is forwarded to TokenHub as `thinking: {"type": "enabled" | "disabled"}`. Reasoning effort is forwarded as `reasoning_effort: low | medium | high` and only takes effect when thinking is enabled. See the [TokenHub thinking docs](https://cloud.tencent.com/document/product/1823/131208) for details.
 
 ## Installation & Usage
 
