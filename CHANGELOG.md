@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.4] - 2026-06-03
+
+### Added
+- Support **customizable models** in Dify: users can add TokenHub models from the UI
+  without waiting for a new plugin release. Enable `customizable-model` alongside the
+  existing `predefined-model` flow.
+- Add `model_credential_schema` with per-model fields: context size, max output tokens,
+  and capability toggles for thinking mode, reasoning effort, vision, and tool calling.
+- Implement `get_customizable_model_schema()` in `llm.py` to build model schema
+  dynamically from UI credentials (parameter rules and features follow the toggles).
+- Add predefined models `deepseek-v4-pro-202606` (DeepSeek-V4-Pro 原厂直供) and
+  `deepseek-v4-flash-202605` (DeepSeek-V4-Flash 原厂直供).
+
+### Changed
+- Extend thinking-mode and reasoning-effort handling: predefined models still use the
+  built-in allowlists; customizable models read `support_thinking` /
+  `support_reasoning_effort` from credentials so new models do not require code changes.
+
+### Fixed
+- Fix plugin startup validation for select-option labels: quote `"Yes"` / `"No"` in
+  `model_credential_schema` so YAML does not parse them as booleans and break Pydantic
+  schema validation.
+
 ## [0.0.3] - 2026-05-09
 
 ### Fixed

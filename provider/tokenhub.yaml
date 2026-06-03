@@ -21,6 +21,7 @@ supported_model_types:
   - llm
 configurate_methods:
   - predefined-model
+  - customizable-model
 provider_credential_schema:
   credential_form_schemas:
     - label:
@@ -41,6 +42,129 @@ provider_credential_schema:
       required: false
       type: text-input
       variable: api_base
+model_credential_schema:
+  model:
+    label:
+      en_US: Model Name
+      zh_Hans: 模型名称
+    placeholder:
+      en_US: Enter the model name, e.g. deepseek-v4-pro
+      zh_Hans: 输入模型名称，例如 deepseek-v4-pro
+  credential_form_schemas:
+    - label:
+        en_US: API Key
+        zh_Hans: API Key
+      placeholder:
+        en_US: Enter your TokenHub API Key
+        zh_Hans: 在此输入您的 TokenHub API Key
+      required: true
+      type: secret-input
+      variable: api_key
+    - label:
+        en_US: API Base URL
+        zh_Hans: API 基础地址
+      placeholder:
+        en_US: "https://tokenhub.tencentmaas.com/v1"
+        zh_Hans: "https://tokenhub.tencentmaas.com/v1"
+      required: false
+      type: text-input
+      variable: api_base
+    - label:
+        en_US: Context Size
+        zh_Hans: 上下文长度
+      placeholder:
+        en_US: Enter the context window size, e.g. 131072
+        zh_Hans: 输入模型上下文长度，例如 131072
+      required: false
+      default: "131072"
+      type: text-input
+      variable: context_size
+    - label:
+        en_US: Max Output Tokens
+        zh_Hans: 最大输出长度
+      placeholder:
+        en_US: Upper limit of output tokens, e.g. 8192
+        zh_Hans: 最大输出 Token 上限，例如 8192
+      required: false
+      default: "8192"
+      type: text-input
+      variable: max_tokens_limit
+    - label:
+        en_US: Support Thinking Mode
+        zh_Hans: 支持思考模式
+      type: select
+      required: false
+      default: "false"
+      help:
+        en_US: Whether the model supports the TokenHub thinking-mode toggle.
+        zh_Hans: 该模型是否支持 TokenHub 思考模式开关。
+      options:
+        - value: "true"
+          label:
+            en_US: "Yes"
+            zh_Hans: 是
+        - value: "false"
+          label:
+            en_US: "No"
+            zh_Hans: 否
+      variable: support_thinking
+    - label:
+        en_US: Support Reasoning Effort
+        zh_Hans: 支持推理深度
+      type: select
+      required: false
+      default: "false"
+      help:
+        en_US: Whether the model supports the reasoning_effort parameter (low/medium/high).
+        zh_Hans: 该模型是否支持推理深度参数（low/medium/high）。
+      options:
+        - value: "true"
+          label:
+            en_US: "Yes"
+            zh_Hans: 是
+        - value: "false"
+          label:
+            en_US: "No"
+            zh_Hans: 否
+      variable: support_reasoning_effort
+    - label:
+        en_US: Support Vision
+        zh_Hans: 支持图片识别
+      type: select
+      required: false
+      default: "false"
+      help:
+        en_US: Whether the model supports image input (vision).
+        zh_Hans: 该模型是否支持图片输入（视觉）。
+      options:
+        - value: "true"
+          label:
+            en_US: "Yes"
+            zh_Hans: 是
+        - value: "false"
+          label:
+            en_US: "No"
+            zh_Hans: 否
+      variable: support_vision
+    - label:
+        en_US: Support Tool Call
+        zh_Hans: 支持工具调用
+      type: select
+      required: false
+      default: "true"
+      help:
+        en_US: Whether the model supports function/tool calling.
+        zh_Hans: 该模型是否支持函数/工具调用。
+      options:
+        - value: "true"
+          label:
+            en_US: "Yes"
+            zh_Hans: 是
+        - value: "false"
+          label:
+            en_US: "No"
+            zh_Hans: 否
+      variable: support_tool_call
 models:
   llm:
     position: models/llm/_position.yaml

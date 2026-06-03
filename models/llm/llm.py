@@ -6,6 +6,16 @@ from typing import cast, Optional
 from openai import OpenAI, Stream
 from openai.types.chat import ChatCompletion, ChatCompletionChunk
 
+from dify_plugin.entities import I18nObject
+from dify_plugin.entities.model import (
+    AIModelEntity,
+    FetchFrom,
+    ModelFeature,
+    ModelPropertyKey,
+    ModelType,
+    ParameterRule,
+    ParameterType,
+)
 from dify_plugin.entities.model.llm import LLMResult, LLMResultChunk, LLMResultChunkDelta
 from dify_plugin.entities.model.message import (
     AssistantPromptMessage,
@@ -37,6 +47,8 @@ REASONING_EFFORT_MODELS = {
     "hy3-preview",
     "deepseek-v4-flash",
     "deepseek-v4-pro",
+    "deepseek-v4-pro-202606",
+    "deepseek-v4-flash-202605",
     "deepseek-v3.2",
 }
 
@@ -44,6 +56,8 @@ THINKING_TOGGLE_MODELS = {
     "hy3-preview",
     "deepseek-v4-pro",
     "deepseek-v4-flash",
+    "deepseek-v4-pro-202606",
+    "deepseek-v4-flash-202605",
     "deepseek-v3.2",
     "deepseek-v3.1-terminus",
     "glm-5.1",
@@ -73,7 +87,7 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
     ) -> LLMResult | Generator:
         client = self._get_client(credentials)
         messages = self._convert_prompt_messages(prompt_messages)
-        extra_kwargs = self._build_extra_kwargs(model, model_parameters, tools, stop)
+        extra_kwargs = self._build_extra_kwargs(model, credentials, model_parameters, tools, stop)
 
         if stream:
             response = client.chat.completions.create(
@@ -116,14 +130,137 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         except Exception as e:
             raise CredentialsValidateFailedError(f"Credentials validation failed: {e}")
 
+    def get_customizable_model_schema(self, model: str, credentials: dict) -> AIModelEntity:
+        """
+        为界面自定义添加的模型动态生成 schema（相当于动态生成一份模型 yaml）。
+
+        用户在 Dify 界面添加模型时填写的字段会以凭据形式传入：
+        - ``context_size`` / ``max_tokens_limit``：上下文长度与最大输出上限。
+        - ``support_thinking`` / ``support_reasoning_effort``：是否暴露思考模式、推理深度参数。
+        - ``support_vision`` / ``support_tool_call``：是否声明视觉、工具调用能力。
+
+        这样新增模型无需再手动添加 yaml 或改代码。
+        """
+        context_size = self._safe_int(credentials.get("context_size"), 131072)
+        max_tokens_limit = self._safe_int(credentials.get("max_tokens_limit"), 8192)
+
+        parameter_rules = [
+            ParameterRule(
+                name="temperature",
+                use_template="temperature",
+                label=I18nObject(zh_Hans="温度", en_US="Temperature"),
+                type=ParameterType.FLOAT,
+                default=0.7,
+                min=0.0,
+                max=2.0,
+            ),
+            ParameterRule(
+                name="top_p",
+                use_template="top_p",
+                label=I18nObject(zh_Hans="Top P", en_US="Top P"),
+                type=ParameterType.FLOAT,
+                default=1.0,
+                min=0.0,
+                max=1.0,
+            ),
+            ParameterRule(
+                name="max_tokens",
+                use_template="max_tokens",
+                label=I18nObject(zh_Hans="最大输出长度", en_US="Max Tokens"),
+                type=ParameterType.INT,
+                default=min(8192, max_tokens_limit),
+                min=1,
+                max=max_tokens_limit,
+            ),
+        ]
+
+        if self._supports_thinking(model, credentials):
+            parameter_rules.append(
+                ParameterRule(
+                    name="thinking",
+                    label=I18nObject(zh_Hans="思考模式", en_US="Thinking mode"),
+                    type=ParameterType.BOOLEAN,
+                    default=True,
+                    help=I18nObject(
+                        zh_Hans="是否开启思考模式。开启后模型会先进行推理再给出最终答案。",
+                        en_US="Whether to enable thinking mode. When enabled, the model reasons before answering.",
+                    ),
+                )
+            )
+
+        if self._supports_reasoning_effort(model, credentials):
+            parameter_rules.append(
+                ParameterRule(
+                    name="reasoning_effort",
+                    label=I18nObject(zh_Hans="推理深度", en_US="Reasoning Effort"),
+                    type=ParameterType.STRING,
+                    default="high",
+                    options=["low", "medium", "high"],
+                    help=I18nObject(
+                        zh_Hans="推理深度控制，仅在开启思考模式时生效。",
+                        en_US="Control reasoning depth. Only takes effect when thinking mode is enabled.",
+                    ),
+                )
+            )
+
+        features = [ModelFeature.AGENT_THOUGHT]
+        if self._credential_truthy(credentials, "support_tool_call"):
+            features += [
+                ModelFeature.TOOL_CALL,
+                ModelFeature.MULTI_TOOL_CALL,
+                ModelFeature.STREAM_TOOL_CALL,
+            ]
+        if self._credential_truthy(credentials, "support_vision"):
+            features.append(ModelFeature.VISION)
+
+        return AIModelEntity(
+            model=model,
+            label=I18nObject(zh_Hans=model, en_US=model),
+            model_type=ModelType.LLM,
+            fetch_from=FetchFrom.CUSTOMIZABLE_MODEL,
+            features=features,
+            model_properties={
+                ModelPropertyKey.MODE: "chat",
+                ModelPropertyKey.CONTEXT_SIZE: context_size,
+            },
+            parameter_rules=parameter_rules,
+        )
+
+    @staticmethod
+    def _safe_int(value, default: int) -> int:
+        """将凭据中的字符串数字安全转换为 int，转换失败时回退到默认值。"""
+        try:
+            return int(str(value).strip())
+        except (TypeError, ValueError):
+            return default
+
     def _get_client(self, credentials: dict) -> OpenAI:
         api_key = credentials.get("api_key", "")
         base_url = credentials.get("api_base", "").strip() or TOKENHUB_DEFAULT_BASE_URL
         return OpenAI(api_key=api_key, base_url=base_url, timeout=120)
 
+    @staticmethod
+    def _credential_truthy(credentials: dict, key: str) -> bool:
+        """判断凭据中某个开关字段是否为真（兼容字符串/布尔/数字写法）。"""
+        return str(credentials.get(key, "")).strip().lower() in {"true", "1", "yes", "on"}
+
+    def _supports_thinking(self, model: str, credentials: dict) -> bool:
+        """
+        判断模型是否支持思考模式开关。
+
+        预定义模型走内置名单；自定义模型（界面添加）则读取凭据里的
+        ``support_thinking`` 开关，从而无需改代码即可支持新模型。
+        """
+        return model in THINKING_TOGGLE_MODELS or self._credential_truthy(credentials, "support_thinking")
+
+    def _supports_reasoning_effort(self, model: str, credentials: dict) -> bool:
+        """判断模型是否支持推理深度参数（逻辑同 ``_supports_thinking``）。"""
+        return model in REASONING_EFFORT_MODELS or self._credential_truthy(credentials, "support_reasoning_effort")
+
     def _build_extra_kwargs(
         self,
         model: str,
+        credentials: dict,
         model_parameters: dict,
         tools: list[PromptMessageTool] | None = None,
         stop: list[str] | None = None,
@@ -150,13 +287,13 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
 
         extra_body: dict = {}
 
-        if model in THINKING_TOGGLE_MODELS and "thinking" in model_parameters:
+        if self._supports_thinking(model, credentials) and "thinking" in model_parameters:
             thinking_enabled = bool(model_parameters.get("thinking"))
             extra_body["thinking"] = {
                 "type": "enabled" if thinking_enabled else "disabled"
             }
 
-        if model in REASONING_EFFORT_MODELS:
+        if self._supports_reasoning_effort(model, credentials):
             reasoning_effort = model_parameters.get("reasoning_effort")
             if reasoning_effort and reasoning_effort in {"low", "medium", "high"}:
                 extra_body["reasoning_effort"] = reasoning_effort

@@ -2,6 +2,8 @@
 - hunyuan-2.0-thinking-20251109
 - hunyuan-2.0-instruct-20251111
 - hunyuan-role-latest
+- deepseek-v4-pro-202606
+- deepseek-v4-flash-202605
 - deepseek-v4-pro
 - deepseek-v4-flash
 - deepseek-v3.2
@@ -14,5 +16,6 @@
 - glm-5
 - kimi-k2.6
 - kimi-k2.5
+- minimax-m3
 - minimax-m2.7
 - minimax-m2.5
