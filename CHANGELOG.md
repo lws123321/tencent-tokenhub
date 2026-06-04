@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `deepseek-v4-flash-202605` (DeepSeek-V4-Flash 原厂直供).
 
 ### Changed
+- Bump `dify_plugin` dependency from `~=0.5.0` to `>=0.9.0` to satisfy Dify
+  marketplace PR checks.
 - Extend thinking-mode and reasoning-effort handling: predefined models still use the
   built-in allowlists; customizable models read `support_thinking` /
   `support_reasoning_effort` from credentials so new models do not require code changes.
