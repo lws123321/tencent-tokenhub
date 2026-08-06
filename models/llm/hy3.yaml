@@ -1,7 +1,7 @@
-model: deepseek-v3.2
+model: hy3
 label:
-  zh_Hans: Deepseek-v3.2
-  en_US: Deepseek-v3.2
+  zh_Hans: Hy3
+  en_US: Hy3
 model_type: llm
 features:
   - agent-thought
@@ -10,12 +10,12 @@ features:
   - stream-tool-call
 model_properties:
   mode: chat
-  context_size: 128000
+  context_size: 256000
 parameter_rules:
   - name: temperature
     use_template: temperature
     type: float
-    default: 0.6
+    default: 0.7
     min: 0.0
     max: 2.0
     help:
@@ -35,13 +35,13 @@ parameter_rules:
     type: int
     default: 4096
     min: 1
-    max: 32768
+    max: 128000
     help:
       zh_Hans: 限制最大输出 Token 数。
       en_US: Limit maximum output tokens.
   - name: thinking
     type: boolean
-    default: false
+    default: true
     label:
       zh_Hans: 思考模式
       en_US: Thinking mode
@@ -50,7 +50,7 @@ parameter_rules:
       en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
   - name: reasoning_effort
     type: string
-    default: "high"
+    default: "low"
     label:
       zh_Hans: 推理深度
       en_US: Reasoning Effort
@@ -62,7 +62,7 @@ parameter_rules:
       zh_Hans: 推理深度控制。low 推理步数少、速度快；medium 平衡模式；high 推理最深入但延迟和成本最高。仅在开启思考模式时生效。
       en_US: Control reasoning depth. low is fast with fewer steps; medium is balanced; high reasons most deeply with higher latency and cost. Only takes effect when thinking mode is enabled.
 pricing:
-  input: '2'
-  output: '3'
+  input: '1'
+  output: '4'
   unit: '0.000001'
   currency: RMB

@@ -13,7 +13,7 @@ class TokenHubModelProvider(ModelProvider):
         try:
             model_instance = self.get_model_instance(ModelType.LLM)
             model_instance.validate_credentials(
-                model="deepseek-v3.2", credentials=credentials
+                model="deepseek-v4-flash", credentials=credentials
             )
         except CredentialsValidateFailedError as ex:
             raise ex

@@ -11,26 +11,35 @@
 
 ## 支持模型
 
+与官方 [TokenHub 模型列表](https://cloud.tencent.com/document/product/1823/130051) 中的语言模型对齐（已排除标记下线的模型）。
+
 | 模型名称 | `model` 参数值 | 能力 |
 |---------|---------------|------|
-| Hy3 preview | hy3-preview | 工具调用、思考开关、推理深度 |
-| HY 2.0 Think | hunyuan-2.0-thinking-20251109 | 推理模型（思考常开） |
-| HY 2.0 Instruct | hunyuan-2.0-instruct-20251111 | 指令模型 |
-| Hunyuan-role | hunyuan-role-latest | 角色扮演 |
-| DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、视觉、思考开关、推理深度 |
+| Hy3 | hy3 | 工具调用、思考开关、推理深度 |
+| Hy-MT2-Pro | hy-mt2-pro | 翻译 |
+| Hy-MT2-Plus | hy-mt2-plus | 翻译 |
+| Hy-MT2-Lite | hy-mt2-lite | 翻译 |
+| Hy-Role-Latest | hunyuan-role-latest | 角色扮演 |
+| Hy-Role | hy-role | 角色扮演 |
+| DeepSeek-V4-Flash 正式版 原厂直供 | deepseek-v4-flash-202605 | 工具调用、思考开关、推理深度 |
+| DeepSeek-V4-Pro 原厂直供 | deepseek-v4-pro-202606 | 工具调用、思考开关、推理深度 |
 | DeepSeek-V4-Flash | deepseek-v4-flash | 工具调用、思考开关、推理深度 |
-| DeepSeek-V3.2 | deepseek-v3.2 | 工具调用、思考开关、推理深度 |
-| DeepSeek-V3.1 | deepseek-v3.1-terminus | 工具调用、思考开关 |
-| DeepSeek-R1-0528 | deepseek-r1-0528 | 推理模型 |
-| DeepSeek-V3-0324 | deepseek-v3-0324 | 工具调用 |
+| DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、思考开关、推理深度 |
+| GLM-5.2 | glm-5.2 | 工具调用、思考开关 |
 | GLM-5.1 | glm-5.1 | 工具调用、思考开关 |
 | GLM-5V-Turbo | glm-5v-turbo | 视觉、工具调用、思考开关 |
 | GLM-5-Turbo | glm-5-turbo | 工具调用、思考开关 |
 | GLM-5 | glm-5 | 工具调用、思考开关 |
+| Kimi K2.7 Code HighSpeed | kimi-k2.7-code-highspeed | 工具调用、思考开关 |
+| Kimi K3 | kimi-k3 | 工具调用、思考开关 |
+| Kimi K2.7 Code | kimi-k2.7-code | 工具调用、思考开关 |
 | Kimi-K2.6 | kimi-k2.6 | 工具调用、思考开关 |
 | Kimi-K2.5 | kimi-k2.5 | 工具调用、思考开关 |
+| MiniMax-M3 | minimax-m3 | 工具调用（思考常开） |
 | MiniMax-M2.7 | minimax-m2.7 | 工具调用（思考常开） |
-| MiniMax-M2.5 | minimax-m2.5 | 工具调用（思考常开） |
+| Qwen3.5-Flash | qwen3.5-flash | 工具调用、思考开关 |
+| Qwen3.5-Plus | qwen3.5-plus | 工具调用、思考开关 |
+| MiMo-V2.5-Pro | mimo-v2.5-pro | 工具调用、思考开关 |
 
 > 思考开关会透传为 `thinking: {"type": "enabled" | "disabled"}`。推理深度会透传为 `reasoning_effort: low | medium | high`，且仅在开启思考模式时生效。详情参见 [TokenHub 深度思考文档](https://cloud.tencent.com/document/product/1823/131208)。
 

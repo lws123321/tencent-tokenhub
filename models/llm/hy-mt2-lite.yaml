@@ -1,16 +1,12 @@
-model: hunyuan-role-latest
+model: hy-mt2-lite
 label:
-  zh_Hans: Hy-Role-Latest
-  en_US: Hy-Role-Latest
+  zh_Hans: Hy-MT2-Lite
+  en_US: Hy-MT2-Lite
 model_type: llm
-features:
-  - agent-thought
-  - tool-call
-  - multi-tool-call
-  - stream-tool-call
+features: []
 model_properties:
   mode: chat
-  context_size: 32000
+  context_size: 8000
 parameter_rules:
   - name: temperature
     use_template: temperature
@@ -33,14 +29,14 @@ parameter_rules:
   - name: max_tokens
     use_template: max_tokens
     type: int
-    default: 4096
+    default: 2048
     min: 1
-    max: 4096
+    max: 4000
     help:
       zh_Hans: 限制最大输出 Token 数。
       en_US: Limit maximum output tokens.
 pricing:
-  input: '2.4'
-  output: '9.6'
+  input: '0.3'
+  output: '1.2'
   unit: '0.000001'
   currency: RMB

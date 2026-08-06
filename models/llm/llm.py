@@ -44,28 +44,32 @@ logger = logging.getLogger(__name__)
 TOKENHUB_DEFAULT_BASE_URL = "https://tokenhub.tencentmaas.com/v1"
 
 REASONING_EFFORT_MODELS = {
-    "hy3-preview",
+    "hy3",
     "deepseek-v4-flash",
     "deepseek-v4-pro",
     "deepseek-v4-pro-202606",
     "deepseek-v4-flash-202605",
-    "deepseek-v3.2",
 }
 
 THINKING_TOGGLE_MODELS = {
-    "hy3-preview",
+    "hy3",
     "deepseek-v4-pro",
     "deepseek-v4-flash",
     "deepseek-v4-pro-202606",
     "deepseek-v4-flash-202605",
-    "deepseek-v3.2",
-    "deepseek-v3.1-terminus",
+    "glm-5.2",
     "glm-5.1",
     "glm-5v-turbo",
     "glm-5-turbo",
     "glm-5",
+    "kimi-k2.7-code-highspeed",
+    "kimi-k3",
+    "kimi-k2.7-code",
     "kimi-k2.6",
     "kimi-k2.5",
+    "qwen3.5-flash",
+    "qwen3.5-plus",
+    "mimo-v2.5-pro",
 }
 
 

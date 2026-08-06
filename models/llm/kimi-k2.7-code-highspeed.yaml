@@ -1,7 +1,7 @@
-model: hunyuan-2.0-instruct-20251111
+model: kimi-k2.7-code-highspeed
 label:
-  zh_Hans: HY 2.0 Instruct
-  en_US: HY 2.0 Instruct
+  zh_Hans: Kimi K2.7 Code HighSpeed
+  en_US: Kimi K2.7 Code HighSpeed
 model_type: llm
 features:
   - agent-thought
@@ -10,7 +10,7 @@ features:
   - stream-tool-call
 model_properties:
   mode: chat
-  context_size: 144000
+  context_size: 256000
 parameter_rules:
   - name: temperature
     use_template: temperature
@@ -35,12 +35,21 @@ parameter_rules:
     type: int
     default: 4096
     min: 1
-    max: 16384
+    max: 256000
     help:
       zh_Hans: 限制最大输出 Token 数。
       en_US: Limit maximum output tokens.
+  - name: thinking
+    type: boolean
+    default: true
+    label:
+      zh_Hans: 思考模式
+      en_US: Thinking mode
+    help:
+      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
+      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
 pricing:
-  input: '2'
-  output: '8'
+  input: '13'
+  output: '54'
   unit: '0.000001'
   currency: RMB

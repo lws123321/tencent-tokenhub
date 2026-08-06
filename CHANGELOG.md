@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2026-08-06
+
+### Added
+- Add language models from the latest TokenHub catalog: `hy3`, `hy-mt2-pro`,
+  `hy-mt2-plus`, `hy-mt2-lite`, `hy-role`, `glm-5.2`, `kimi-k3`,
+  `kimi-k2.7-code`, `kimi-k2.7-code-highspeed`, `qwen3.5-flash`,
+  `qwen3.5-plus`, `mimo-v2.5-pro`.
+
+### Changed
+- Align predefined model order and metadata with the official
+  [TokenHub model list](https://cloud.tencent.com/document/product/1823/130051).
+- Update thinking / reasoning-effort allowlists and provider credential probe
+  model to current TokenHub IDs.
+- Refresh bilingual README model tables.
+
+### Removed
+- Remove offline models `hy3-preview` and `minimax-m2.5`.
+- Remove models no longer listed: `hunyuan-2.0-*`, `deepseek-v3.2`,
+  `deepseek-v3.1-terminus`, `deepseek-r1-0528`, `deepseek-v3-0324`.
+
 ## [0.0.4] - 2026-06-03
 
 ### Added

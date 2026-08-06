@@ -1,7 +1,7 @@
-model: minimax-m2.5
+model: kimi-k2.7-code
 label:
-  zh_Hans: MiniMax-M2.5
-  en_US: MiniMax-M2.5
+  zh_Hans: Kimi K2.7 Code
+  en_US: Kimi K2.7 Code
 model_type: llm
 features:
   - agent-thought
@@ -10,7 +10,7 @@ features:
   - stream-tool-call
 model_properties:
   mode: chat
-  context_size: 200000
+  context_size: 256000
 parameter_rules:
   - name: temperature
     use_template: temperature
@@ -35,12 +35,21 @@ parameter_rules:
     type: int
     default: 4096
     min: 1
-    max: 128000
+    max: 256000
     help:
       zh_Hans: 限制最大输出 Token 数。
       en_US: Limit maximum output tokens.
+  - name: thinking
+    type: boolean
+    default: true
+    label:
+      zh_Hans: 思考模式
+      en_US: Thinking mode
+    help:
+      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
+      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
 pricing:
-  input: '1'
-  output: '4'
+  input: '6.5'
+  output: '27'
   unit: '0.000001'
   currency: RMB
