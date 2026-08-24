@@ -1,7 +1,7 @@
-model: deepseek-v4-flash-202605
+model: deepseek/deepseek-v4-flash
 label:
   zh_Hans: DeepSeek-V4-Flash原厂直供
-  en_US: DeepSeek-V4-Flash-Factory-Direct
+  en_US: DeepSeek-V4-Flash (Factory Direct)
 model_type: llm
 features:
   - agent-thought
@@ -62,7 +62,7 @@ parameter_rules:
       zh_Hans: 推理深度控制。low 推理步数少、速度快；medium 平衡模式；high 推理最深入但延迟和成本最高。仅在开启思考模式时生效。
       en_US: Control reasoning depth. low is fast with fewer steps; medium is balanced; high reasons most deeply with higher latency and cost. Only takes effect when thinking mode is enabled.
 pricing:
-  input: '1'
-  output: '2'
+  input: '1.5'
+  output: '4.5'
   unit: '0.000001'
   currency: RMB

@@ -21,10 +21,12 @@ Aligned with the official [TokenHub model list](https://cloud.tencent.com/docume
 | Hy-MT2-Lite | hy-mt2-lite | Translation |
 | Hy-Role-Latest | hunyuan-role-latest | Role-play |
 | Hy-Role | hy-role | Role-play |
-| DeepSeek-V4-Flash Official (Factory Direct) | deepseek-v4-flash-202605 | Tool calling, thinking toggle, reasoning effort |
-| DeepSeek-V4-Pro (Factory Direct) | deepseek-v4-pro-202606 | Tool calling, thinking toggle, reasoning effort |
+| DeepSeek-V4-Flash Official (Factory Direct) | deepseek/deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
+| DeepSeek-V4-Pro Official (Factory Direct) | deepseek/deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort, vision |
+| DeepSeek-V4-Flash-Vision-Exp (Factory Direct) | deepseek/deepseek-v4-flash-vision-exp | Tool calling, thinking toggle, reasoning effort, vision |
 | DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
 | DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort |
+| GLM-5.3 | glm-5.3 | Tool calling, thinking toggle |
 | GLM-5.2 | glm-5.2 | Tool calling, thinking toggle |
 | GLM-5.1 | glm-5.1 | Tool calling, thinking toggle |
 | GLM-5V-Turbo | glm-5v-turbo | Vision, tool calling, thinking toggle |

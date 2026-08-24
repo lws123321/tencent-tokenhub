@@ -21,10 +21,12 @@
 | Hy-MT2-Lite | hy-mt2-lite | 翻译 |
 | Hy-Role-Latest | hunyuan-role-latest | 角色扮演 |
 | Hy-Role | hy-role | 角色扮演 |
-| DeepSeek-V4-Flash 正式版 原厂直供 | deepseek-v4-flash-202605 | 工具调用、思考开关、推理深度 |
-| DeepSeek-V4-Pro 原厂直供 | deepseek-v4-pro-202606 | 工具调用、思考开关、推理深度 |
+| DeepSeek-V4-Flash 正式版 原厂直供 | deepseek/deepseek-v4-flash | 工具调用、思考开关、推理深度 |
+| DeepSeek-V4-Pro 正式版 原厂直供 | deepseek/deepseek-v4-pro | 工具调用、思考开关、推理深度、视觉 |
+| DeepSeek-V4-Flash-Vision-Exp 原厂直供 | deepseek/deepseek-v4-flash-vision-exp | 工具调用、思考开关、推理深度、视觉 |
 | DeepSeek-V4-Flash | deepseek-v4-flash | 工具调用、思考开关、推理深度 |
 | DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、思考开关、推理深度 |
+| GLM-5.3 | glm-5.3 | 工具调用、思考开关 |
 | GLM-5.2 | glm-5.2 | 工具调用、思考开关 |
 | GLM-5.1 | glm-5.1 | 工具调用、思考开关 |
 | GLM-5V-Turbo | glm-5v-turbo | 视觉、工具调用、思考开关 |

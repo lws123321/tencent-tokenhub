@@ -1,0 +1,69 @@
+model: deepseek/deepseek-v4-pro
+label:
+  zh_Hans: DeepSeek-V4-Pro原厂直供
+  en_US: DeepSeek-V4-Pro (Factory Direct)
+model_type: llm
+features:
+  - agent-thought
+  - tool-call
+  - multi-tool-call
+  - stream-tool-call
+  - vision
+model_properties:
+  mode: chat
+  context_size: 1000000
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+    type: float
+    default: 0.6
+    min: 0.0
+    max: 2.0
+    help:
+      zh_Hans: 控制生成结果的多样性和随机性。
+      en_US: Control the diversity and randomness of generated results.
+  - name: top_p
+    use_template: top_p
+    type: float
+    default: 1.0
+    min: 0.0
+    max: 1.0
+    help:
+      zh_Hans: 核采样参数，控制输出多样性。
+      en_US: Nucleus sampling parameter for output diversity.
+  - name: max_tokens
+    use_template: max_tokens
+    type: int
+    default: 8182
+    min: 1
+    max: 384000
+    help:
+      zh_Hans: 限制最大输出 Token 数。
+      en_US: Limit maximum output tokens.
+  - name: thinking
+    type: boolean
+    default: true
+    label:
+      zh_Hans: 思考模式
+      en_US: Thinking mode
+    help:
+      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
+      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
+  - name: reasoning_effort
+    type: string
+    default: "high"
+    label:
+      zh_Hans: 推理深度
+      en_US: Reasoning Effort
+    options:
+      - "low"
+      - "medium"
+      - "high"
+    help:
+      zh_Hans: 推理深度控制。low 推理步数少、速度快；medium 平衡模式；high 推理最深入但延迟和成本最高。仅在开启思考模式时生效。
+      en_US: Control reasoning depth. low is fast with fewer steps; medium is balanced; high reasons most deeply with higher latency and cost. Only takes effect when thinking mode is enabled.
+pricing:
+  input: '4.5'
+  output: '13.5'
+  unit: '0.000001'
+  currency: RMB

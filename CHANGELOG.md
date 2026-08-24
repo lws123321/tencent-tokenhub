@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.6] - 2026-08-24
+
+### Added
+- Add `glm-5.3` and factory-direct `deepseek/deepseek-v4-flash-vision-exp`.
+
+### Changed
+- Point factory-direct DeepSeek models at latest aliases instead of snapshot IDs:
+  `deepseek/deepseek-v4-flash` and `deepseek/deepseek-v4-pro`.
+- Refresh bilingual README model tables against the official TokenHub catalog.
+
+### Removed
+- Remove snapshot IDs `deepseek-v4-flash-202605` and `deepseek-v4-pro-202606`.
+
 ## [0.0.5] - 2026-08-06
 
 ### Added

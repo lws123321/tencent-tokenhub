@@ -47,16 +47,19 @@ REASONING_EFFORT_MODELS = {
     "hy3",
     "deepseek-v4-flash",
     "deepseek-v4-pro",
-    "deepseek-v4-pro-202606",
-    "deepseek-v4-flash-202605",
+    "deepseek/deepseek-v4-flash",
+    "deepseek/deepseek-v4-pro",
+    "deepseek/deepseek-v4-flash-vision-exp",
 }
 
 THINKING_TOGGLE_MODELS = {
     "hy3",
     "deepseek-v4-pro",
     "deepseek-v4-flash",
-    "deepseek-v4-pro-202606",
-    "deepseek-v4-flash-202605",
+    "deepseek/deepseek-v4-flash",
+    "deepseek/deepseek-v4-pro",
+    "deepseek/deepseek-v4-flash-vision-exp",
+    "glm-5.3",
     "glm-5.2",
     "glm-5.1",
     "glm-5v-turbo",
