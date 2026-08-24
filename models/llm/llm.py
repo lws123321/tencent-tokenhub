@@ -43,6 +43,13 @@ logger = logging.getLogger(__name__)
 
 TOKENHUB_DEFAULT_BASE_URL = "https://tokenhub.tencentmaas.com/v1"
 
+# 旧快照 ID -> 原厂 latest 别名。保留预定义 yaml 让已有 Dify 应用不必重选模型，
+# 实际请求仍打到永远指向最新版的 factory-direct ID。
+MODEL_ALIASES = {
+    "deepseek-v4-flash-202605": "deepseek/deepseek-v4-flash",
+    "deepseek-v4-pro-202606": "deepseek/deepseek-v4-pro",
+}
+
 REASONING_EFFORT_MODELS = {
     "hy3",
     "deepseek-v4-flash",
@@ -93,12 +100,13 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         user: str | None = None,
     ) -> LLMResult | Generator:
         client = self._get_client(credentials)
+        request_model = self._resolve_model(model)
         messages = self._convert_prompt_messages(prompt_messages)
-        extra_kwargs = self._build_extra_kwargs(model, credentials, model_parameters, tools, stop)
+        extra_kwargs = self._build_extra_kwargs(request_model, credentials, model_parameters, tools, stop)
 
         if stream:
             response = client.chat.completions.create(
-                model=model,
+                model=request_model,
                 messages=messages,
                 stream=True,
                 stream_options={"include_usage": True},
@@ -108,7 +116,7 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
             return self._handle_stream_response(model, credentials, prompt_messages, response)
 
         response = client.chat.completions.create(
-            model=model,
+            model=request_model,
             messages=messages,
             stream=False,
             user=user or "",
@@ -122,7 +130,7 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         try:
             client = self._get_client(credentials)
             client.chat.completions.create(
-                model=model,
+                model=self._resolve_model(model),
                 messages=[{"role": "user", "content": "hi"}],
                 max_tokens=10,
                 stream=False,
@@ -251,6 +259,16 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         """判断凭据中某个开关字段是否为真（兼容字符串/布尔/数字写法）。"""
         return str(credentials.get(key, "")).strip().lower() in {"true", "1", "yes", "on"}
 
+    @staticmethod
+    def _resolve_model(model: str) -> str:
+        """
+        将兼容用的旧模型 ID 解析为实际请求 TokenHub 的 ID。
+
+        Dify 侧仍使用 yaml 中的旧 ``model`` 值（例如 ``deepseek-v4-pro-202606``），
+        这样已有应用不必重选模型；真正发给 API 的是 latest 原厂别名。
+        """
+        return MODEL_ALIASES.get(model, model)
+
     def _supports_thinking(self, model: str, credentials: dict) -> bool:
         """
         判断模型是否支持思考模式开关。
@@ -258,11 +276,13 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         预定义模型走内置名单；自定义模型（界面添加）则读取凭据里的
         ``support_thinking`` 开关，从而无需改代码即可支持新模型。
         """
-        return model in THINKING_TOGGLE_MODELS or self._credential_truthy(credentials, "support_thinking")
+        resolved = self._resolve_model(model)
+        return resolved in THINKING_TOGGLE_MODELS or self._credential_truthy(credentials, "support_thinking")
 
     def _supports_reasoning_effort(self, model: str, credentials: dict) -> bool:
         """判断模型是否支持推理深度参数（逻辑同 ``_supports_thinking``）。"""
-        return model in REASONING_EFFORT_MODELS or self._credential_truthy(credentials, "support_reasoning_effort")
+        resolved = self._resolve_model(model)
+        return resolved in REASONING_EFFORT_MODELS or self._credential_truthy(credentials, "support_reasoning_effort")
 
     def _build_extra_kwargs(
         self,

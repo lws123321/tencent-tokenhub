@@ -16,3 +16,4 @@ venv/
 .gitignore
 .DS_Store
 Thumbs.db
+*.difypkg

@@ -24,6 +24,8 @@
 | DeepSeek-V4-Flash 正式版 原厂直供 | deepseek/deepseek-v4-flash | 工具调用、思考开关、推理深度 |
 | DeepSeek-V4-Pro 正式版 原厂直供 | deepseek/deepseek-v4-pro | 工具调用、思考开关、推理深度、视觉 |
 | DeepSeek-V4-Flash-Vision-Exp 原厂直供 | deepseek/deepseek-v4-flash-vision-exp | 工具调用、思考开关、推理深度、视觉 |
+| DeepSeek-V4-Flash 正式版 原厂直供（兼容旧ID） | deepseek-v4-flash-202605 | 兼容别名，实际调用 `deepseek/deepseek-v4-flash` |
+| DeepSeek-V4-Pro 正式版 原厂直供（兼容旧ID） | deepseek-v4-pro-202606 | 兼容别名，实际调用 `deepseek/deepseek-v4-pro` |
 | DeepSeek-V4-Flash | deepseek-v4-flash | 工具调用、思考开关、推理深度 |
 | DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、思考开关、推理深度 |
 | GLM-5.3 | glm-5.3 | 工具调用、思考开关 |
@@ -75,3 +77,7 @@
 
 本插件不会在插件侧持久化用户提示词、模型输出或 API Key。
 为完成模型推理，请求内容会发送至腾讯 TokenHub 服务端进行处理。详情见 `PRIVACY.md`。
+
+## 源码
+
+- 源码仓库：https://github.com/lws123321/tencent-tokenhub

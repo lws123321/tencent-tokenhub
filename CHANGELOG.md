@@ -13,10 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Point factory-direct DeepSeek models at latest aliases instead of snapshot IDs:
   `deepseek/deepseek-v4-flash` and `deepseek/deepseek-v4-pro`.
+- Keep snapshot IDs `deepseek-v4-flash-202605` and `deepseek-v4-pro-202606` as
+  compatibility aliases so existing Dify apps do not need to reselect models;
+  invoke requests are rewritten to the latest factory aliases.
 - Refresh bilingual README model tables against the official TokenHub catalog.
-
-### Removed
-- Remove snapshot IDs `deepseek-v4-flash-202605` and `deepseek-v4-pro-202606`.
 
 ## [0.0.5] - 2026-08-06
 
@@ -48,8 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and capability toggles for thinking mode, reasoning effort, vision, and tool calling.
 - Implement `get_customizable_model_schema()` in `llm.py` to build model schema
   dynamically from UI credentials (parameter rules and features follow the toggles).
-- Add predefined models `deepseek-v4-pro-202606` (DeepSeek-V4-Pro 原厂直供) and
-  `deepseek-v4-flash-202605` (DeepSeek-V4-Flash 原厂直供).
+- Add predefined models `deepseek-v4-pro-202606` (DeepSeek-V4-Pro factory direct) and
+  `deepseek-v4-flash-202605` (DeepSeek-V4-Flash factory direct).
 
 ### Changed
 - Bump `dify_plugin` dependency from `~=0.5.0` to `>=0.9.0` to satisfy Dify

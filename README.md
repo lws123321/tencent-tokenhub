@@ -24,6 +24,8 @@ Aligned with the official [TokenHub model list](https://cloud.tencent.com/docume
 | DeepSeek-V4-Flash Official (Factory Direct) | deepseek/deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
 | DeepSeek-V4-Pro Official (Factory Direct) | deepseek/deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort, vision |
 | DeepSeek-V4-Flash-Vision-Exp (Factory Direct) | deepseek/deepseek-v4-flash-vision-exp | Tool calling, thinking toggle, reasoning effort, vision |
+| DeepSeek-V4-Flash Official (Factory Direct, legacy ID) | deepseek-v4-flash-202605 | Compatibility alias for `deepseek/deepseek-v4-flash` |
+| DeepSeek-V4-Pro Official (Factory Direct, legacy ID) | deepseek-v4-pro-202606 | Compatibility alias for `deepseek/deepseek-v4-pro` |
 | DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
 | DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort |
 | GLM-5.3 | glm-5.3 | Tool calling, thinking toggle |
@@ -75,3 +77,7 @@ Aligned with the official [TokenHub model list](https://cloud.tencent.com/docume
 
 This plugin does not persist user prompts, model outputs, or API keys on the plugin side.
 To complete model inference, request content will be sent to Tencent TokenHub servers for processing. See `PRIVACY.md` for details.
+
+## Source
+
+- Source repository: https://github.com/lws123321/tencent-tokenhub
