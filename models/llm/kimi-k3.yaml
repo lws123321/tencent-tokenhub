@@ -8,46 +8,31 @@ features:
   - tool-call
   - multi-tool-call
   - stream-tool-call
+  - vision
 model_properties:
   mode: chat
   context_size: 1000000
 parameter_rules:
-  - name: temperature
-    use_template: temperature
-    type: float
-    default: 0.7
-    min: 0.0
-    max: 2.0
-    help:
-      zh_Hans: 控制生成结果的多样性和随机性。
-      en_US: Control the diversity and randomness of generated results.
-  - name: top_p
-    use_template: top_p
-    type: float
-    default: 1.0
-    min: 0.0
-    max: 1.0
-    help:
-      zh_Hans: 核采样参数，控制输出多样性。
-      en_US: Nucleus sampling parameter for output diversity.
-  - name: max_tokens
+  - name: max_completion_tokens
     use_template: max_tokens
     type: int
-    default: 4096
+    default: 131072
     min: 1
-    max: 1000000
+    max: 1048576
     help:
       zh_Hans: 限制最大输出 Token 数。
       en_US: Limit maximum output tokens.
-  - name: thinking
-    type: boolean
-    default: true
+  - name: reasoning_effort
+    type: string
+    default: max
+    options:
+      - max
     label:
-      zh_Hans: 思考模式
-      en_US: Thinking mode
+      zh_Hans: 推理深度
+      en_US: Reasoning effort
     help:
-      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
-      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
+      zh_Hans: Kimi K3 始终开启思考模式，目前仅支持 max。
+      en_US: Kimi K3 always thinks and currently supports max only.
 pricing:
   input: '20'
   output: '100'

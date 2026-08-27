@@ -39,15 +39,19 @@ parameter_rules:
     help:
       zh_Hans: 限制最大输出 Token 数。
       en_US: Limit maximum output tokens.
-  - name: thinking
-    type: boolean
-    default: true
+  - name: reasoning_effort
+    type: string
+    default: high
+    options:
+      - low
+      - high
+      - max
     label:
-      zh_Hans: 思考模式
-      en_US: Thinking mode
+      zh_Hans: 推理深度
+      en_US: Reasoning effort
     help:
-      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
-      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
+      zh_Hans: 控制模型的推理深度。该模型始终开启思考模式。
+      en_US: Control reasoning depth. This model always thinks.
 pricing:
   input: '0.8'
   output: '2.8'

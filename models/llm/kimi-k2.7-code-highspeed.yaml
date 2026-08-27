@@ -8,28 +8,11 @@ features:
   - tool-call
   - multi-tool-call
   - stream-tool-call
+  - vision
 model_properties:
   mode: chat
   context_size: 256000
 parameter_rules:
-  - name: temperature
-    use_template: temperature
-    type: float
-    default: 0.7
-    min: 0.0
-    max: 2.0
-    help:
-      zh_Hans: 控制生成结果的多样性和随机性。
-      en_US: Control the diversity and randomness of generated results.
-  - name: top_p
-    use_template: top_p
-    type: float
-    default: 1.0
-    min: 0.0
-    max: 1.0
-    help:
-      zh_Hans: 核采样参数，控制输出多样性。
-      en_US: Nucleus sampling parameter for output diversity.
   - name: max_tokens
     use_template: max_tokens
     type: int
@@ -39,15 +22,6 @@ parameter_rules:
     help:
       zh_Hans: 限制最大输出 Token 数。
       en_US: Limit maximum output tokens.
-  - name: thinking
-    type: boolean
-    default: true
-    label:
-      zh_Hans: 思考模式
-      en_US: Thinking mode
-    help:
-      zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
-      en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
 pricing:
   input: '13'
   output: '54'

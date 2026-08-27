@@ -52,12 +52,45 @@ MODEL_ALIASES = {
 
 REASONING_EFFORT_MODELS = {
     "hy3",
+    "glm-5.3",
+    "glm-5.2",
+    "glm-5.3-flash",
+    "kimi-k3",
     "deepseek-v4-flash",
     "deepseek-v4-pro",
     "deepseek/deepseek-v4-flash",
     "deepseek/deepseek-v4-pro",
     "deepseek/deepseek-v4-flash-vision-exp",
 }
+
+ALWAYS_THINKING_MODELS = {
+    "glm-5.3",
+    "glm-5.3-flash",
+    "kimi-k3",
+    "kimi-k2.7-code",
+    "kimi-k2.7-code-highspeed",
+}
+
+REASONING_EFFORT_OPTIONS = {
+    "glm-5.2": ["max", "xhigh", "high", "medium", "low", "minimal", "none"],
+    "glm-5.3": ["max", "high", "low"],
+    "glm-5.3-flash": ["low", "high", "max"],
+    "kimi-k3": ["max"],
+    "deepseek-v4-flash": ["low", "high", "max"],
+    "deepseek-v4-pro": ["high", "max"],
+    "deepseek/deepseek-v4-flash": ["low", "high", "max"],
+    "deepseek/deepseek-v4-pro": ["high", "max"],
+    "deepseek/deepseek-v4-flash-vision-exp": ["low", "high", "max"],
+}
+
+KIMI_K3_MODELS = {"kimi-k3"}
+KIMI_FIXED_SAMPLING_MODELS = {
+    "kimi-k3",
+    "kimi-k2.7-code",
+    "kimi-k2.7-code-highspeed",
+}
+
+DEEPSEEK_PRO_REASONING_ALIASES = {"low": "high", "xhigh": "max"}
 
 THINKING_TOGGLE_MODELS = {
     "hy3",
@@ -73,9 +106,6 @@ THINKING_TOGGLE_MODELS = {
     "glm-5v-turbo",
     "glm-5-turbo",
     "glm-5",
-    "kimi-k2.7-code-highspeed",
-    "kimi-k3",
-    "kimi-k2.7-code",
     "kimi-k2.6",
     "kimi-k2.5",
     "qwen3.5-flash",
@@ -205,13 +235,14 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
             )
 
         if self._supports_reasoning_effort(model, credentials):
+            reasoning_options = self._reasoning_effort_options(model)
             parameter_rules.append(
                 ParameterRule(
                     name="reasoning_effort",
                     label=I18nObject(zh_Hans="推理深度", en_US="Reasoning Effort"),
                     type=ParameterType.STRING,
                     default="high",
-                    options=["low", "medium", "high"],
+                    options=reasoning_options,
                     help=I18nObject(
                         zh_Hans="推理深度控制，仅在开启思考模式时生效。",
                         en_US="Control reasoning depth. Only takes effect when thinking mode is enabled.",
@@ -278,12 +309,18 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         ``support_thinking`` 开关，从而无需改代码即可支持新模型。
         """
         resolved = self._resolve_model(model)
+        if resolved in ALWAYS_THINKING_MODELS:
+            return False
         return resolved in THINKING_TOGGLE_MODELS or self._credential_truthy(credentials, "support_thinking")
 
     def _supports_reasoning_effort(self, model: str, credentials: dict) -> bool:
         """判断模型是否支持推理深度参数（逻辑同 ``_supports_thinking``）。"""
         resolved = self._resolve_model(model)
         return resolved in REASONING_EFFORT_MODELS or self._credential_truthy(credentials, "support_reasoning_effort")
+
+    @staticmethod
+    def _reasoning_effort_options(model: str) -> list[str]:
+        return REASONING_EFFORT_OPTIONS.get(model, ["low", "medium", "high"])
 
     def _build_extra_kwargs(
         self,
@@ -298,20 +335,22 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
 
         - 思考模式：通过 ``thinking`` 参数控制，传递格式为
           ``{"thinking": {"type": "enabled" | "disabled"}}``。
-        - 推理深度：通过 ``reasoning_effort`` 参数控制，可选值为
-          ``low`` / ``medium`` / ``high``。
+                - 推理深度：通过 ``reasoning_effort`` 参数控制，各模型的可选值
+                    以 ``REASONING_EFFORT_OPTIONS`` 为准。
 
         参考腾讯云 TokenHub 文档：
         https://cloud.tencent.com/document/product/1823/131208
         """
         kwargs: dict = {}
 
-        if "temperature" in model_parameters:
+        if "temperature" in model_parameters and model not in KIMI_FIXED_SAMPLING_MODELS:
             kwargs["temperature"] = model_parameters["temperature"]
-        if "top_p" in model_parameters:
+        if "top_p" in model_parameters and model not in KIMI_FIXED_SAMPLING_MODELS:
             kwargs["top_p"] = model_parameters["top_p"]
-        if "max_tokens" in model_parameters:
+        if "max_tokens" in model_parameters and model not in KIMI_K3_MODELS:
             kwargs["max_tokens"] = model_parameters["max_tokens"]
+        if "max_completion_tokens" in model_parameters and model in KIMI_K3_MODELS:
+            kwargs["max_completion_tokens"] = model_parameters["max_completion_tokens"]
 
         extra_body: dict = {}
 
@@ -323,8 +362,13 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
 
         if self._supports_reasoning_effort(model, credentials):
             reasoning_effort = model_parameters.get("reasoning_effort")
-            if reasoning_effort and reasoning_effort in {"low", "medium", "high"}:
-                extra_body["reasoning_effort"] = reasoning_effort
+            if model in {"deepseek-v4-pro", "deepseek/deepseek-v4-pro"}:
+                reasoning_effort = DEEPSEEK_PRO_REASONING_ALIASES.get(reasoning_effort, reasoning_effort)
+            if reasoning_effort and reasoning_effort in self._reasoning_effort_options(model):
+                if model in KIMI_K3_MODELS:
+                    kwargs["reasoning_effort"] = reasoning_effort
+                else:
+                    extra_body["reasoning_effort"] = reasoning_effort
 
         if extra_body:
             kwargs["extra_body"] = extra_body

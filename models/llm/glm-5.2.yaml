@@ -48,6 +48,23 @@ parameter_rules:
     help:
       zh_Hans: 是否开启思考模式。开启后模型会先进行推理再给出最终答案。
       en_US: Whether to enable thinking mode. When enabled, the model reasons before answering.
+  - name: reasoning_effort
+    type: string
+    default: max
+    options:
+      - max
+      - xhigh
+      - high
+      - medium
+      - low
+      - minimal
+      - none
+    label:
+      zh_Hans: 推理深度
+      en_US: Reasoning effort
+    help:
+      zh_Hans: 控制模型的推理深度。minimal 和 none 等同于关闭思考。
+      en_US: Control reasoning depth. minimal and none are equivalent to disabling thinking.
 pricing:
   input: '8'
   output: '28'

@@ -21,32 +21,34 @@ Aligned with the official [TokenHub model list](https://cloud.tencent.com/docume
 | Hy-MT2-Lite | hy-mt2-lite | Translation |
 | Hy-Role-Latest | hunyuan-role-latest | Role-play |
 | Hy-Role | hy-role | Role-play |
-| DeepSeek-V4-Flash Official (Factory Direct) | deepseek/deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
-| DeepSeek-V4-Pro Official (Factory Direct) | deepseek/deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort, vision |
-| DeepSeek-V4-Flash-Vision-Exp (Factory Direct) | deepseek/deepseek-v4-flash-vision-exp | Tool calling, thinking toggle, reasoning effort, vision |
+| DeepSeek-V4-Flash Official (Factory Direct) | deepseek/deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort (`low` / `high` / `max`) |
+| DeepSeek-V4-Pro Official (Factory Direct) | deepseek/deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort (`high` / `max`), vision |
+| DeepSeek-V4-Flash-Vision-Exp (Factory Direct) | deepseek/deepseek-v4-flash-vision-exp | Tool calling, thinking toggle, reasoning effort (`low` / `high` / `max`), vision |
 | DeepSeek-V4-Flash Official (Factory Direct, legacy ID) | deepseek-v4-flash-202605 | Compatibility alias for `deepseek/deepseek-v4-flash` |
 | DeepSeek-V4-Pro Official (Factory Direct, legacy ID) | deepseek-v4-pro-202606 | Compatibility alias for `deepseek/deepseek-v4-pro` |
-| DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
-| DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort |
-| GLM-5.3 | glm-5.3 | Tool calling, thinking toggle |
-| GLM-5.3-Flash | glm-5.3-flash | Tool calling, thinking toggle |
-| GLM-5.2 | glm-5.2 | Tool calling, thinking toggle |
+| DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort (`low` / `high` / `max`) |
+| DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort (`high` / `max`) |
+| GLM-5.3 | glm-5.3 | Tool calling, reasoning effort (`max` / `high` / `low`); thinking always on |
+| GLM-5.3-Flash | glm-5.3-flash | Tool calling, reasoning effort (`low` / `high` / `max`); thinking always on |
+| GLM-5.2 | glm-5.2 | Tool calling, thinking toggle, reasoning effort (`max` / `xhigh` / `high` / `medium` / `low` / `minimal` / `none`) |
 | GLM-5.1 | glm-5.1 | Tool calling, thinking toggle |
 | GLM-5V-Turbo | glm-5v-turbo | Vision, tool calling, thinking toggle |
 | GLM-5-Turbo | glm-5-turbo | Tool calling, thinking toggle |
 | GLM-5 | glm-5 | Tool calling, thinking toggle |
-| Kimi K2.7 Code HighSpeed | kimi-k2.7-code-highspeed | Tool calling, thinking toggle |
-| Kimi K3 | kimi-k3 | Tool calling, thinking toggle |
-| Kimi K2.7 Code | kimi-k2.7-code | Tool calling, thinking toggle |
-| Kimi-K2.6 | kimi-k2.6 | Tool calling, thinking toggle |
-| Kimi-K2.5 | kimi-k2.5 | Tool calling, thinking toggle |
+| Kimi K2.7 Code HighSpeed | kimi-k2.7-code-highspeed | Vision, tool calling; thinking always on; fixed sampling parameters |
+| Kimi K3 | kimi-k3 | Vision, tool calling, reasoning effort (`max` only); thinking always on |
+| Kimi K2.7 Code | kimi-k2.7-code | Vision, tool calling; thinking always on; fixed sampling parameters |
+| Kimi-K2.6 | kimi-k2.6 | Vision, tool calling, thinking toggle |
+| Kimi-K2.5 | kimi-k2.5 | Vision, tool calling, thinking toggle |
 | MiniMax-M3 | minimax-m3 | Tool calling (thinking always on) |
 | MiniMax-M2.7 | minimax-m2.7 | Tool calling (thinking always on) |
 | Qwen3.5-Flash | qwen3.5-flash | Tool calling, thinking toggle |
 | Qwen3.5-Plus | qwen3.5-plus | Tool calling, thinking toggle |
 | MiMo-V2.5-Pro | mimo-v2.5-pro | Tool calling, thinking toggle |
 
-> Thinking toggle is forwarded to TokenHub as `thinking: {"type": "enabled" | "disabled"}`. Reasoning effort is forwarded as `reasoning_effort: low | medium | high` and only takes effect when thinking is enabled. See the [TokenHub thinking docs](https://cloud.tencent.com/document/product/1823/131208) for details.
+> Thinking toggle is forwarded to TokenHub as `thinking: {"type": "enabled" | "disabled"}`. `glm-5.2` supports `reasoning_effort: max | xhigh | high | medium | low | minimal | none`; `glm-5.3` supports `max | high | low`; and `glm-5.3-flash` supports `low | high | max`. The latter two models always think and do not accept `thinking: {"type": "disabled"}`. See the [TokenHub GLM docs](https://cloud.tencent.com/document/product/1823/132061) for details.
+
+> DeepSeek reasoning effort is forwarded as a top-level `reasoning_effort` field. Flash models support `low` / `high` / `max`; Pro models support `high` / `max` (legacy `low` maps to `high`, and `xhigh` maps to `max`). DeepSeek thinking remains controlled by `thinking.type`. See the [TokenHub DeepSeek docs](https://cloud.tencent.com/document/product/1823/132248) for details.
 
 ## Installation & Usage
 

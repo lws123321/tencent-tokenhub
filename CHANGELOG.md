@@ -8,8 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.7] - 2026-08-27
 
 ### Added
-- Add `glm-5.3-flash` with tool calling and thinking toggle support.
+- Add `glm-5.3-flash` with tool calling and reasoning effort support.
 - Refresh bilingual README model tables against the official TokenHub pricing and model catalog.
+
+### Fixed
+- Configure `glm-5.3-flash` as an always-thinking model with `low` / `high` / `max`
+  reasoning effort options instead of the unsupported thinking toggle.
+- Configure `glm-5.3` as an always-thinking model and add its documented reasoning
+  effort options.
+- Add the documented reasoning effort options for `glm-5.2` while retaining its
+  thinking toggle.
+- Align Kimi model parameters with the official Kimi calling guide: use top-level
+  `reasoning_effort` for `kimi-k3`, keep K2.7 models always thinking with fixed
+  sampling parameters, and declare visual input support for all Kimi models.
+- Align DeepSeek reasoning-effort options with the official calling guide: Flash
+  supports `low` / `high` / `max`, while Pro supports `high` / `max` with legacy
+  compatibility mappings; update the recommended temperature default to `1.0`.
 
 ## [0.0.6] - 2026-08-24
 
