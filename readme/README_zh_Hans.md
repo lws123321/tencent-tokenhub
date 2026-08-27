@@ -29,6 +29,7 @@
 | DeepSeek-V4-Flash | deepseek-v4-flash | 工具调用、思考开关、推理深度 |
 | DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、思考开关、推理深度 |
 | GLM-5.3 | glm-5.3 | 工具调用、思考开关 |
+| GLM-5.3-Flash | glm-5.3-flash | 工具调用、思考开关 |
 | GLM-5.2 | glm-5.2 | 工具调用、思考开关 |
 | GLM-5.1 | glm-5.1 | 工具调用、思考开关 |
 | GLM-5V-Turbo | glm-5v-turbo | 视觉、工具调用、思考开关 |

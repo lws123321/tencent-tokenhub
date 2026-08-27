@@ -29,6 +29,7 @@ Aligned with the official [TokenHub model list](https://cloud.tencent.com/docume
 | DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort |
 | DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort |
 | GLM-5.3 | glm-5.3 | Tool calling, thinking toggle |
+| GLM-5.3-Flash | glm-5.3-flash | Tool calling, thinking toggle |
 | GLM-5.2 | glm-5.2 | Tool calling, thinking toggle |
 | GLM-5.1 | glm-5.1 | Tool calling, thinking toggle |
 | GLM-5V-Turbo | glm-5v-turbo | Vision, tool calling, thinking toggle |
