@@ -1,0 +1,6 @@
+model: wand-asr-v1
+label:
+  zh_Hans: WAND-ASR-V1
+  en_US: WAND-ASR-V1
+model_type: speech2text
+model_properties: {}

@@ -1,0 +1,6 @@
+model: hy-asr-3.0-preview
+label:
+  zh_Hans: Hy-ASR-3.0-Preview
+  en_US: Hy-ASR-3.0-Preview
+model_type: speech2text
+model_properties: {}

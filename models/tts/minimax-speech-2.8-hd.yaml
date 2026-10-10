@@ -1,0 +1,16 @@
+model: minimax-speech-2.8-hd
+label:
+  zh_Hans: MiniMax-Speech-2.8-HD
+  en_US: MiniMax-Speech-2.8-HD
+model_type: tts
+model_properties:
+  audio_type: mp3
+  word_limit: 10000
+  default_voice: male-qn-qingse
+  voices:
+    - name: Male Qingse
+      mode: male-qn-qingse
+      language: zh
+    - name: Female Shaonv
+      mode: female-shaonv
+      language: zh

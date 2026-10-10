@@ -1,0 +1,51 @@
+model: hy4-preview
+label:
+  zh_Hans: Hy4 Preview
+  en_US: Hy4 Preview
+model_type: llm
+features:
+  - agent-thought
+  - tool-call
+  - multi-tool-call
+  - stream-tool-call
+  - structured-output
+model_properties:
+  mode: chat
+  context_size: 1000000
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+    type: float
+    default: 0.9
+    min: 0.0
+    max: 2.0
+  - name: top_p
+    use_template: top_p
+    type: float
+    default: 1.0
+    min: 0.0
+    max: 1.0
+  - name: max_tokens
+    use_template: max_tokens
+    type: int
+    default: 16384
+    min: 1
+    max: 64000
+  - name: thinking
+    type: boolean
+    default: true
+    label:
+      zh_Hans: 思考模式
+      en_US: Thinking mode
+  - name: reasoning_effort
+    type: string
+    default: high
+    options: [low, high]
+    label:
+      zh_Hans: 推理深度
+      en_US: Reasoning effort
+pricing:
+  input: '6'
+  output: '18'
+  unit: '0.000001'
+  currency: RMB

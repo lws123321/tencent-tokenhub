@@ -1,50 +1,28 @@
 # Tencent TokenHub Dify Plugin
 
-Tencent TokenHub plugin for Dify. It is compatible with the OpenAI API protocol and supports a wide range of LLMs.
+Tencent TokenHub plugin for Dify. It supports LLM, vision, multimodal understanding, embedding, TTS, and speech-to-text APIs.
 
 ## Overview
 
 - Plugin Name: Tencent TokenHub
-- Provider Type: LLM
+- Provider Type: LLM, text embedding, TTS, and speech-to-text
 - Runtime: Python 3.12
 - Authentication: API Key (custom API Base URL is optional)
 
 ## Supported Models
 
-Aligned with the official [TokenHub model list](https://cloud.tencent.com/document/product/1823/130051) (language models; offline models excluded).
+The plugin follows the official TokenHub catalog and exposes four Dify model types:
+LLM (including vision and video understanding), text embedding, TTS, and speech-to-text.
+The catalog changes independently from plugin releases, so use the official pages below
+for the current model IDs and availability.
 
-| Model Name | `model` Value | Capabilities |
-|------------|---------------|--------------|
-| Hy3 | hy3 | Tool calling, thinking toggle, reasoning effort |
-| Hy-MT2-Pro | hy-mt2-pro | Translation |
-| Hy-MT2-Plus | hy-mt2-plus | Translation |
-| Hy-MT2-Lite | hy-mt2-lite | Translation |
-| Hy-Role-Latest | hunyuan-role-latest | Role-play |
-| Hy-Role | hy-role | Role-play |
-| DeepSeek-V4-Flash Official (Factory Direct) | deepseek/deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort (`low` / `high` / `max`) |
-| DeepSeek-V4-Pro Official (Factory Direct) | deepseek/deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort (`high` / `max`), vision |
-| DeepSeek-V4-Flash-Vision-Exp (Factory Direct) | deepseek/deepseek-v4-flash-vision-exp | Tool calling, thinking toggle, reasoning effort (`low` / `high` / `max`), vision |
-| DeepSeek-V4-Flash Official (Factory Direct, legacy ID) | deepseek-v4-flash-202605 | Compatibility alias for `deepseek/deepseek-v4-flash` |
-| DeepSeek-V4-Pro Official (Factory Direct, legacy ID) | deepseek-v4-pro-202606 | Compatibility alias for `deepseek/deepseek-v4-pro` |
-| DeepSeek-V4-Flash | deepseek-v4-flash | Tool calling, thinking toggle, reasoning effort (`low` / `high` / `max`) |
-| DeepSeek-V4-Pro | deepseek-v4-pro | Tool calling, thinking toggle, reasoning effort (`high` / `max`) |
-| GLM-5.3 | glm-5.3 | Tool calling, reasoning effort (`max` / `high` / `low`); thinking always on |
-| GLM-5.3-Flash | glm-5.3-flash | Tool calling, reasoning effort (`low` / `high` / `max`); thinking always on |
-| GLM-5.2 | glm-5.2 | Tool calling, thinking toggle, reasoning effort (`max` / `xhigh` / `high` / `medium` / `low` / `minimal` / `none`) |
-| GLM-5.1 | glm-5.1 | Tool calling, thinking toggle |
-| GLM-5V-Turbo | glm-5v-turbo | Vision, tool calling, thinking toggle |
-| GLM-5-Turbo | glm-5-turbo | Tool calling, thinking toggle |
-| GLM-5 | glm-5 | Tool calling, thinking toggle |
-| Kimi K2.7 Code HighSpeed | kimi-k2.7-code-highspeed | Vision, tool calling; thinking always on; fixed sampling parameters |
-| Kimi K3 | kimi-k3 | Vision, tool calling, reasoning effort (`max` only); thinking always on |
-| Kimi K2.7 Code | kimi-k2.7-code | Vision, tool calling; thinking always on; fixed sampling parameters |
-| Kimi-K2.6 | kimi-k2.6 | Vision, tool calling, thinking toggle |
-| Kimi-K2.5 | kimi-k2.5 | Vision, tool calling, thinking toggle |
-| MiniMax-M3 | minimax-m3 | Tool calling (thinking always on) |
-| MiniMax-M2.7 | minimax-m2.7 | Tool calling (thinking always on) |
-| Qwen3.5-Flash | qwen3.5-flash | Tool calling, thinking toggle |
-| Qwen3.5-Plus | qwen3.5-plus | Tool calling, thinking toggle |
-| MiMo-V2.5-Pro | mimo-v2.5-pro | Tool calling, thinking toggle |
+- [TokenHub model list](https://cloud.tencent.com/document/product/1823/130051)
+- [Language model calling overview](https://cloud.tencent.com/document/product/1823/130079)
+- [DeepSeek calling guide](https://cloud.tencent.com/document/product/1823/132248)
+- [Image understanding](https://cloud.tencent.com/document/product/1823/136956)
+- [Video understanding](https://cloud.tencent.com/document/product/1823/136957)
+- [Embedding models](https://cloud.tencent.com/document/product/1823/133515)
+- [Speech model calling guide](https://cloud.tencent.com/document/product/1823/135321)
 
 > Thinking toggle is forwarded to TokenHub as `thinking: {"type": "enabled" | "disabled"}`. `glm-5.2` supports `reasoning_effort: max | xhigh | high | medium | low | minimal | none`; `glm-5.3` supports `max | high | low`; and `glm-5.3-flash` supports `low | high | max`. The latter two models always think and do not accept `thinking: {"type": "disabled"}`. See the [TokenHub GLM docs](https://cloud.tencent.com/document/product/1823/132061) for details.
 
@@ -75,6 +53,10 @@ Aligned with the official [TokenHub model list](https://cloud.tencent.com/docume
 ## API Documentation
 
 - [Text Generation](https://cloud.tencent.com/document/product/1823/130079)
+- [Image Understanding](https://cloud.tencent.com/document/product/1823/136956)
+- [Video Understanding](https://cloud.tencent.com/document/product/1823/136957)
+- [Embedding Models](https://cloud.tencent.com/document/product/1823/133515)
+- [Speech Models](https://cloud.tencent.com/document/product/1823/135321)
 
 ## Privacy
 

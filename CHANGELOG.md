@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.8] - 2026-10-09
+
+### Added
+- Add active TokenHub language models: Hy4 Preview, DeepSeek V4.1, GLM-5.3-FlashX,
+  DeepSeek V4 0731/0813 factory-direct IDs and DeepSeek snapshot IDs,
+  Kimi K2.8 Preview, MiMo V2.6, and
+  Step 5 Preview.
+- Add HY-Vision, YT-VITA, and video understanding models through the OpenAI-compatible
+  chat protocol, including `video_url` message input.
+- Add Kinfra text and multimodal embedding models through `/embeddings` and
+  `/embeddings/multimodal`.
+- Add MiniMax Speech TTS models and WAND/Hy synchronous ASR models.
+
+### Removed
+- Remove models marked offline or scheduled for offline removal by TokenHub: GLM-5,
+  GLM-5.1, GLM-5-Turbo, GLM-5V-Turbo, Qwen3.5-Flash, and Qwen3.5-Plus.
+
+### Changed
+- DeepSeek snapshot IDs are sent directly to TokenHub without runtime alias rewriting.
+
 ## [0.0.7] - 2026-08-27
 
 ### Added

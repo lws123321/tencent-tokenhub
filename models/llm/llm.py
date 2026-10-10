@@ -27,6 +27,7 @@ from dify_plugin.entities.model.message import (
     TextPromptMessageContent,
     ToolPromptMessage,
     UserPromptMessage,
+    VideoPromptMessageContent,
 )
 from dify_plugin.errors.model import (
     CredentialsValidateFailedError,
@@ -43,14 +44,18 @@ logger = logging.getLogger(__name__)
 
 TOKENHUB_DEFAULT_BASE_URL = "https://tokenhub.tencentmaas.com/v1"
 
-# 旧快照 ID -> 原厂 latest 别名。保留预定义 yaml 让已有 Dify 应用不必重选模型，
-# 实际请求仍打到永远指向最新版的 factory-direct ID。
-MODEL_ALIASES = {
-    "deepseek-v4-flash-202605": "deepseek/deepseek-v4-flash",
-    "deepseek-v4-pro-202606": "deepseek/deepseek-v4-pro",
-}
-
 REASONING_EFFORT_MODELS = {
+    "hy4-preview",
+    "glm-5.3-flashx",
+    "kimi-k2.8-preview",
+    "deepseek-v4.1-flash",
+    "deepseek/deepseek-flash",
+    "deepseek-v4-flash-0731",
+    "deepseek/deepseek-v4-flash-0731",
+    "deepseek-v4-flash-202605",
+    "deepseek-v4-pro-0813",
+    "deepseek/deepseek-v4-pro-0813",
+    "deepseek-v4-pro-202606",
     "hy3",
     "glm-5.3",
     "glm-5.2",
@@ -64,6 +69,8 @@ REASONING_EFFORT_MODELS = {
 }
 
 ALWAYS_THINKING_MODELS = {
+    "glm-5.3-flashx",
+    "kimi-k2.8-preview",
     "glm-5.3",
     "glm-5.3-flash",
     "kimi-k3",
@@ -72,6 +79,17 @@ ALWAYS_THINKING_MODELS = {
 }
 
 REASONING_EFFORT_OPTIONS = {
+    "hy4-preview": ["low", "high"],
+    "glm-5.3-flashx": ["low", "high", "max"],
+    "kimi-k2.8-preview": ["low", "high", "max"],
+    "deepseek-v4.1-flash": ["low", "high", "max"],
+    "deepseek/deepseek-flash": ["low", "high", "max"],
+    "deepseek-v4-flash-0731": ["low", "high", "max"],
+    "deepseek/deepseek-v4-flash-0731": ["low", "high", "max"],
+    "deepseek-v4-flash-202605": ["low", "high", "max"],
+    "deepseek-v4-pro-0813": ["high", "max"],
+    "deepseek/deepseek-v4-pro-0813": ["high", "max"],
+    "deepseek-v4-pro-202606": ["high", "max"],
     "glm-5.2": ["max", "xhigh", "high", "medium", "low", "minimal", "none"],
     "glm-5.3": ["max", "high", "low"],
     "glm-5.3-flash": ["low", "high", "max"],
@@ -85,6 +103,7 @@ REASONING_EFFORT_OPTIONS = {
 
 KIMI_K3_MODELS = {"kimi-k3"}
 KIMI_FIXED_SAMPLING_MODELS = {
+    "kimi-k2.8-preview",
     "kimi-k3",
     "kimi-k2.7-code",
     "kimi-k2.7-code-highspeed",
@@ -93,6 +112,17 @@ KIMI_FIXED_SAMPLING_MODELS = {
 DEEPSEEK_PRO_REASONING_ALIASES = {"low": "high", "xhigh": "max"}
 
 THINKING_TOGGLE_MODELS = {
+    "hy4-preview",
+    "mimo-v2.6-pro",
+    "mimo-v2.6-flash",
+    "deepseek-v4.1-flash",
+    "deepseek/deepseek-flash",
+    "deepseek-v4-flash-0731",
+    "deepseek/deepseek-v4-flash-0731",
+    "deepseek-v4-flash-202605",
+    "deepseek-v4-pro-0813",
+    "deepseek/deepseek-v4-pro-0813",
+    "deepseek-v4-pro-202606",
     "hy3",
     "deepseek-v4-pro",
     "deepseek-v4-flash",
@@ -102,14 +132,8 @@ THINKING_TOGGLE_MODELS = {
     "glm-5.3",
     "glm-5.3-flash",
     "glm-5.2",
-    "glm-5.1",
-    "glm-5v-turbo",
-    "glm-5-turbo",
-    "glm-5",
     "kimi-k2.6",
     "kimi-k2.5",
-    "qwen3.5-flash",
-    "qwen3.5-plus",
     "mimo-v2.5-pro",
 }
 
@@ -131,7 +155,7 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         user: str | None = None,
     ) -> LLMResult | Generator:
         client = self._get_client(credentials)
-        request_model = self._resolve_model(model)
+        request_model = model
         messages = self._convert_prompt_messages(prompt_messages)
         extra_kwargs = self._build_extra_kwargs(request_model, credentials, model_parameters, tools, stop)
 
@@ -161,7 +185,7 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         try:
             client = self._get_client(credentials)
             client.chat.completions.create(
-                model=self._resolve_model(model),
+                model=model,
                 messages=[{"role": "user", "content": "hi"}],
                 max_tokens=10,
                 stream=False,
@@ -291,16 +315,6 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         """判断凭据中某个开关字段是否为真（兼容字符串/布尔/数字写法）。"""
         return str(credentials.get(key, "")).strip().lower() in {"true", "1", "yes", "on"}
 
-    @staticmethod
-    def _resolve_model(model: str) -> str:
-        """
-        将兼容用的旧模型 ID 解析为实际请求 TokenHub 的 ID。
-
-        Dify 侧仍使用 yaml 中的旧 ``model`` 值（例如 ``deepseek-v4-pro-202606``），
-        这样已有应用不必重选模型；真正发给 API 的是 latest 原厂别名。
-        """
-        return MODEL_ALIASES.get(model, model)
-
     def _supports_thinking(self, model: str, credentials: dict) -> bool:
         """
         判断模型是否支持思考模式开关。
@@ -308,15 +322,13 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         预定义模型走内置名单；自定义模型（界面添加）则读取凭据里的
         ``support_thinking`` 开关，从而无需改代码即可支持新模型。
         """
-        resolved = self._resolve_model(model)
-        if resolved in ALWAYS_THINKING_MODELS:
+        if model in ALWAYS_THINKING_MODELS:
             return False
-        return resolved in THINKING_TOGGLE_MODELS or self._credential_truthy(credentials, "support_thinking")
+        return model in THINKING_TOGGLE_MODELS or self._credential_truthy(credentials, "support_thinking")
 
     def _supports_reasoning_effort(self, model: str, credentials: dict) -> bool:
         """判断模型是否支持推理深度参数（逻辑同 ``_supports_thinking``）。"""
-        resolved = self._resolve_model(model)
-        return resolved in REASONING_EFFORT_MODELS or self._credential_truthy(credentials, "support_reasoning_effort")
+        return model in REASONING_EFFORT_MODELS or self._credential_truthy(credentials, "support_reasoning_effort")
 
     @staticmethod
     def _reasoning_effort_options(model: str) -> list[str]:
@@ -343,9 +355,13 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         """
         kwargs: dict = {}
 
-        if "temperature" in model_parameters and model not in KIMI_FIXED_SAMPLING_MODELS:
+        fixed_sampling = model in KIMI_FIXED_SAMPLING_MODELS or (
+            model in {"mimo-v2.5-pro", "mimo-v2.6-pro", "mimo-v2.6-flash"}
+            and model_parameters.get("thinking", True)
+        )
+        if "temperature" in model_parameters and not fixed_sampling:
             kwargs["temperature"] = model_parameters["temperature"]
-        if "top_p" in model_parameters and model not in KIMI_FIXED_SAMPLING_MODELS:
+        if "top_p" in model_parameters and not fixed_sampling:
             kwargs["top_p"] = model_parameters["top_p"]
         if "max_tokens" in model_parameters and model not in KIMI_K3_MODELS:
             kwargs["max_tokens"] = model_parameters["max_tokens"]
@@ -362,16 +378,24 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
 
         if self._supports_reasoning_effort(model, credentials):
             reasoning_effort = model_parameters.get("reasoning_effort")
-            if model in {"deepseek-v4-pro", "deepseek/deepseek-v4-pro"}:
+            if model in {
+                "deepseek-v4-pro",
+                "deepseek/deepseek-v4-pro",
+                "deepseek-v4-pro-0813",
+                "deepseek/deepseek-v4-pro-0813",
+            }:
                 reasoning_effort = DEEPSEEK_PRO_REASONING_ALIASES.get(reasoning_effort, reasoning_effort)
             if reasoning_effort and reasoning_effort in self._reasoning_effort_options(model):
-                if model in KIMI_K3_MODELS:
+                if model in KIMI_K3_MODELS or model == "kimi-k2.8-preview":
                     kwargs["reasoning_effort"] = reasoning_effort
                 else:
                     extra_body["reasoning_effort"] = reasoning_effort
 
         if extra_body:
             kwargs["extra_body"] = extra_body
+
+        if model_parameters.get("json_mode"):
+            kwargs["response_format"] = {"type": "json_object"}
 
         if stop:
             kwargs["stop"] = stop
@@ -413,6 +437,12 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
                             content_parts.append({
                                 "type": "image_url",
                                 "image_url": {"url": part.data},
+                            })
+                        elif part.type == PromptMessageContentType.VIDEO:
+                            part = cast(VideoPromptMessageContent, part)
+                            content_parts.append({
+                                "type": "video_url",
+                                "video_url": {"url": part.data},
                             })
                     messages.append({"role": "user", "content": content_parts})
 
@@ -457,6 +487,9 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
         message = choice.message
 
         content = message.content or ""
+        reasoning_content = getattr(message, "reasoning_content", None)
+        if reasoning_content:
+            content = f"<think>\n{reasoning_content}\n</think>{content}"
 
         tool_calls = []
         if message.tool_calls:
@@ -578,11 +611,25 @@ class TokenHubLargeLanguageModel(LargeLanguageModel):
 
             index += 1
 
-        if pending_finish_result is not None:
-            pending_finish_result.delta.usage = self._calc_response_usage(
-                model, credentials, final_prompt_tokens, final_completion_tokens
+        if pending_finish_result is None:
+            pending_finish_result = LLMResultChunk(
+                model=model,
+                prompt_messages=prompt_messages,
+                delta=LLMResultChunkDelta(
+                    index=index,
+                    role="assistant",
+                    message=AssistantPromptMessage(
+                        content="\n</think>" if is_reasoning else "",
+                        tool_calls=[],
+                    ),
+                    finish_reason="stop",
+                ),
             )
-            yield pending_finish_result
+
+        pending_finish_result.delta.usage = self._calc_response_usage(
+            model, credentials, final_prompt_tokens, final_completion_tokens
+        )
+        yield pending_finish_result
 
     def _extract_tool_calls(self, tool_calls) -> list:
         """从 OpenAI SDK 响应中提取工具调用"""

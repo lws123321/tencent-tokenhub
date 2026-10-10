@@ -1,4 +1,4 @@
-version: 0.0.7
+version: 0.0.8
 type: plugin
 author: lws123321
 name: tencent-tokenhub
@@ -6,8 +6,8 @@ label:
   en_US: Tencent TokenHub
   zh_Hans: 腾讯TokenHub
 description:
-  en_US: Models provided by Tencent TokenHub, including Hy3, DeepSeek, Hunyuan, GLM, Kimi, MiniMax, Qwen, MiMo series.
-  zh_Hans: 腾讯TokenHub大模型服务平台，支持Hy3、DeepSeek、混元、GLM、Kimi、MiniMax、Qwen、MiMo等系列模型。
+  en_US: Models provided by Tencent TokenHub, including LLM, vision, multimodal understanding, and embedding models.
+  zh_Hans: 腾讯TokenHub大模型服务平台，支持语言、视觉、多模态理解和向量模型。
 icon: icon_s_en.svg
 resource:
   memory: 268435456
@@ -15,16 +15,14 @@ resource:
     model:
       enabled: true
       llm: true
-      text_embedding: false
-      rerank: false
-      tts: false
-      speech2text: false
-      moderation: false
+      text_embedding: true
+      tts: true
+      speech2text: true
 plugins:
   models:
     - provider/tokenhub.yaml
 meta:
-  version: 0.0.7
+  version: 0.0.8
   arch:
     - amd64
     - arm64

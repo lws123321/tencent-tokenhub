@@ -1,0 +1,22 @@
+model: hy-vision-2.0-instruct
+label:
+  zh_Hans: HY-Vision-2.0-Instruct
+  en_US: HY-Vision-2.0-Instruct
+model_type: llm
+features:
+  - vision
+model_properties:
+  mode: chat
+  context_size: 44000
+parameter_rules:
+  - name: max_tokens
+    use_template: max_tokens
+    type: int
+    default: 4096
+    min: 1
+    max: 16000
+pricing:
+  input: '7.5'
+  output: '17.5'
+  unit: '0.000001'
+  currency: RMB

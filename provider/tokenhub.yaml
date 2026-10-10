@@ -19,6 +19,9 @@ help:
     en_US: https://console.cloud.tencent.com/tokenhub
 supported_model_types:
   - llm
+  - text-embedding
+  - tts
+  - speech2text
 configurate_methods:
   - predefined-model
   - customizable-model
@@ -170,8 +173,23 @@ models:
     position: models/llm/_position.yaml
     predefined:
       - "models/llm/*.yaml"
+  text_embedding:
+    position: models/text_embedding/_position.yaml
+    predefined:
+      - "models/text_embedding/*.yaml"
+  tts:
+    position: models/tts/_position.yaml
+    predefined:
+      - "models/tts/*.yaml"
+  speech2text:
+    position: models/speech2text/_position.yaml
+    predefined:
+      - "models/speech2text/*.yaml"
 extra:
   python:
     provider_source: provider/tokenhub.py
     model_sources:
       - models/llm/llm.py
+      - models/text_embedding/text_embedding.py
+      - models/tts/tts.py
+      - models/speech2text/speech2text.py

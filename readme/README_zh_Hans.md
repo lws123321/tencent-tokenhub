@@ -1,50 +1,26 @@
 # 腾讯 TokenHub Dify 插件
 
-腾讯 TokenHub 插件适用于 Dify，兼容 OpenAI API 协议，支持多种大语言模型。
+腾讯 TokenHub 插件适用于 Dify，支持语言、视觉、多模态理解、向量、语音合成和语音识别模型。
 
 ## 介绍
 
 - 插件名称：Tencent TokenHub
-- Provider 类型：LLM
+- Provider 类型：LLM、文本向量、TTS、语音识别
 - 运行环境：Python 3.12
 - 认证方式：API Key（可选自定义 API Base URL）
 
 ## 支持模型
 
-与官方 [TokenHub 模型列表](https://cloud.tencent.com/document/product/1823/130051) 中的语言模型对齐（已排除标记下线的模型）。
+插件跟随 TokenHub 官方模型目录，支持四类 Dify 模型：LLM（包括视觉和视频理解）、文本向量、TTS、语音识别。
+模型目录会独立于插件版本持续更新，当前模型 ID 和可用状态请以官方文档为准：
 
-| 模型名称 | `model` 参数值 | 能力 |
-|---------|---------------|------|
-| Hy3 | hy3 | 工具调用、思考开关、推理深度 |
-| Hy-MT2-Pro | hy-mt2-pro | 翻译 |
-| Hy-MT2-Plus | hy-mt2-plus | 翻译 |
-| Hy-MT2-Lite | hy-mt2-lite | 翻译 |
-| Hy-Role-Latest | hunyuan-role-latest | 角色扮演 |
-| Hy-Role | hy-role | 角色扮演 |
-| DeepSeek-V4-Flash 正式版 原厂直供 | deepseek/deepseek-v4-flash | 工具调用、思考开关、推理深度（`low` / `high` / `max`） |
-| DeepSeek-V4-Pro 正式版 原厂直供 | deepseek/deepseek-v4-pro | 工具调用、思考开关、推理深度（`high` / `max`）、视觉 |
-| DeepSeek-V4-Flash-Vision-Exp 原厂直供 | deepseek/deepseek-v4-flash-vision-exp | 工具调用、思考开关、推理深度（`low` / `high` / `max`）、视觉 |
-| DeepSeek-V4-Flash 正式版 原厂直供（兼容旧ID） | deepseek-v4-flash-202605 | 兼容别名，实际调用 `deepseek/deepseek-v4-flash` |
-| DeepSeek-V4-Pro 正式版 原厂直供（兼容旧ID） | deepseek-v4-pro-202606 | 兼容别名，实际调用 `deepseek/deepseek-v4-pro` |
-| DeepSeek-V4-Flash | deepseek-v4-flash | 工具调用、思考开关、推理深度（`low` / `high` / `max`） |
-| DeepSeek-V4-Pro | deepseek-v4-pro | 工具调用、思考开关、推理深度（`high` / `max`） |
-| GLM-5.3 | glm-5.3 | 工具调用、推理深度（`max` / `high` / `low`）；始终思考 |
-| GLM-5.3-Flash | glm-5.3-flash | 工具调用、推理深度（`low` / `high` / `max`）；始终思考 |
-| GLM-5.2 | glm-5.2 | 工具调用、思考开关、推理深度（`max` / `xhigh` / `high` / `medium` / `low` / `minimal` / `none`） |
-| GLM-5.1 | glm-5.1 | 工具调用、思考开关 |
-| GLM-5V-Turbo | glm-5v-turbo | 视觉、工具调用、思考开关 |
-| GLM-5-Turbo | glm-5-turbo | 工具调用、思考开关 |
-| GLM-5 | glm-5 | 工具调用、思考开关 |
-| Kimi K2.7 Code HighSpeed | kimi-k2.7-code-highspeed | 视觉、工具调用；始终思考；采样参数固定 |
-| Kimi K3 | kimi-k3 | 视觉、工具调用、推理深度（仅 `max`）；始终思考 |
-| Kimi K2.7 Code | kimi-k2.7-code | 视觉、工具调用；始终思考；采样参数固定 |
-| Kimi-K2.6 | kimi-k2.6 | 视觉、工具调用、思考开关 |
-| Kimi-K2.5 | kimi-k2.5 | 视觉、工具调用、思考开关 |
-| MiniMax-M3 | minimax-m3 | 工具调用（思考常开） |
-| MiniMax-M2.7 | minimax-m2.7 | 工具调用（思考常开） |
-| Qwen3.5-Flash | qwen3.5-flash | 工具调用、思考开关 |
-| Qwen3.5-Plus | qwen3.5-plus | 工具调用、思考开关 |
-| MiMo-V2.5-Pro | mimo-v2.5-pro | 工具调用、思考开关 |
+- [TokenHub 模型列表](https://cloud.tencent.com/document/product/1823/130051)
+- [语言模型调用概览](https://cloud.tencent.com/document/product/1823/130079)
+- [DeepSeek 调用指南](https://cloud.tencent.com/document/product/1823/132248)
+- [图片理解](https://cloud.tencent.com/document/product/1823/136956)
+- [视频理解](https://cloud.tencent.com/document/product/1823/136957)
+- [向量模型](https://cloud.tencent.com/document/product/1823/133515)
+- [语音模型调用指南](https://cloud.tencent.com/document/product/1823/135321)
 
 > 思考开关会透传为 `thinking: {"type": "enabled" | "disabled"}`。`glm-5.2` 支持 `reasoning_effort: max | xhigh | high | medium | low | minimal | none`；`glm-5.3` 支持 `max | high | low`；`glm-5.3-flash` 支持 `low | high | max`。后两个模型始终开启思考，不接受 `thinking: {"type": "disabled"}`。详情参见 [TokenHub GLM 调用文档](https://cloud.tencent.com/document/product/1823/132061)。
 
@@ -75,6 +51,10 @@
 ## API 文档
 
 - [文本生成](https://cloud.tencent.com/document/product/1823/130079)
+- [图片理解](https://cloud.tencent.com/document/product/1823/136956)
+- [视频理解](https://cloud.tencent.com/document/product/1823/136957)
+- [向量模型](https://cloud.tencent.com/document/product/1823/133515)
+- [语音模型](https://cloud.tencent.com/document/product/1823/135321)
 
 ## 隐私说明
 

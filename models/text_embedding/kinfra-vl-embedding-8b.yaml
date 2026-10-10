@@ -1,0 +1,13 @@
+model: kinfra-vl-embedding-8b
+label:
+  zh_Hans: Kinfra-VL-Embedding-8b
+  en_US: Kinfra-VL-Embedding-8b
+model_type: text-embedding
+model_properties:
+  context_size: 32000
+  max_chunks: 1
+parameter_rules: []
+pricing:
+  input: '0'
+  unit: '0.000001'
+  currency: RMB
