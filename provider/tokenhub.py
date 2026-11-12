@@ -1,24 +1,14 @@
-import logging
 from collections.abc import Mapping
 
 from dify_plugin import ModelProvider
-from dify_plugin.entities.model import ModelType
 from dify_plugin.errors.model import CredentialsValidateFailedError
-
-logger = logging.getLogger(__name__)
-
+from openai import OpenAI
 
 class TokenHubModelProvider(ModelProvider):
     def validate_provider_credentials(self, credentials: Mapping) -> None:
         try:
-            model_instance = self.get_model_instance(ModelType.LLM)
-            model_instance.validate_credentials(
-                model="deepseek-v4-flash", credentials=credentials
-            )
-        except CredentialsValidateFailedError as ex:
-            raise ex
+            base_url = credentials.get("api_base", "").strip() or "https://tokenhub.tencentmaas.com/v1"
+            client = OpenAI(api_key=credentials.get("api_key", ""), base_url=base_url, timeout=120)
+            client.models.list()
         except Exception as ex:
-            logger.exception(
-                f"{self.get_provider_schema().provider} credentials validate failed"
-            )
-            raise ex
+            raise CredentialsValidateFailedError(f"Credentials validation failed: {ex}") from ex

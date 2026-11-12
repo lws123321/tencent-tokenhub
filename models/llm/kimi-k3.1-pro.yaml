@@ -1,0 +1,35 @@
+model: kimi-k3.1-pro
+label:
+  zh_Hans: Kimi K3.1 Pro
+  en_US: Kimi K3.1 Pro
+model_type: llm
+features:
+  - agent-thought
+  - tool-call
+  - multi-tool-call
+  - stream-tool-call
+  - vision
+  - video
+  - structured-output
+model_properties:
+  mode: chat
+  context_size: 1000000
+parameter_rules:
+  - name: max_completion_tokens
+    use_template: max_tokens
+    type: int
+    default: 131072
+    min: 1
+    max: 1048576
+  - name: reasoning_effort
+    type: string
+    default: high
+    options: [low, high, max]
+    label:
+      zh_Hans: 推理深度
+      en_US: Reasoning effort
+pricing:
+  input: '13'
+  output: '68'
+  unit: '0.000001'
+  currency: RMB

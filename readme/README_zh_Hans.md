@@ -14,6 +14,10 @@
 插件跟随 TokenHub 官方模型目录，支持四类 Dify 模型：LLM（包括视觉和视频理解）、文本向量、TTS、语音识别。
 模型目录会独立于插件版本持续更新，当前模型 ID 和可用状态请以官方文档为准：
 
+`minimax-m2.7` 将于 2026 年 11 月 17 日下线，已从预定义模型中移除；使用该模型的应用需改选其他模型。
+对于当前官方目录未列出、但未明确公告下线的旧 ID，插件暂时保留，请在 TokenHub 控制台确认可用性。
+Dify 中显示的价格仅供参考，折扣和峰谷计费等以 TokenHub 实际账单为准。
+
 - [TokenHub 模型列表](https://cloud.tencent.com/document/product/1823/130051)
 - [语言模型调用概览](https://cloud.tencent.com/document/product/1823/130079)
 - [DeepSeek 调用指南](https://cloud.tencent.com/document/product/1823/132248)

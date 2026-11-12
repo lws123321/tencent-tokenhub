@@ -45,6 +45,10 @@ logger = logging.getLogger(__name__)
 TOKENHUB_DEFAULT_BASE_URL = "https://tokenhub.tencentmaas.com/v1"
 
 REASONING_EFFORT_MODELS = {
+    "hy4",
+    "deepseek-v4.1-flash-1017",
+    "kimi-k3.1-pro",
+    "kimi-k3.1-pro-highspeed",
     "hy4-preview",
     "glm-5.3-flashx",
     "kimi-k2.8-preview",
@@ -69,6 +73,8 @@ REASONING_EFFORT_MODELS = {
 }
 
 ALWAYS_THINKING_MODELS = {
+    "kimi-k3.1-pro",
+    "kimi-k3.1-pro-highspeed",
     "glm-5.3-flashx",
     "kimi-k2.8-preview",
     "glm-5.3",
@@ -79,6 +85,10 @@ ALWAYS_THINKING_MODELS = {
 }
 
 REASONING_EFFORT_OPTIONS = {
+    "hy4": ["high"],
+    "deepseek-v4.1-flash-1017": ["low", "high", "max"],
+    "kimi-k3.1-pro": ["low", "high", "max"],
+    "kimi-k3.1-pro-highspeed": ["low", "high", "max"],
     "hy4-preview": ["low", "high"],
     "glm-5.3-flashx": ["low", "high", "max"],
     "kimi-k2.8-preview": ["low", "high", "max"],
@@ -101,8 +111,10 @@ REASONING_EFFORT_OPTIONS = {
     "deepseek/deepseek-v4-flash-vision-exp": ["low", "high", "max"],
 }
 
-KIMI_K3_MODELS = {"kimi-k3"}
+KIMI_K3_MODELS = {"kimi-k3", "kimi-k3.1-pro", "kimi-k3.1-pro-highspeed"}
 KIMI_FIXED_SAMPLING_MODELS = {
+    "kimi-k3.1-pro",
+    "kimi-k3.1-pro-highspeed",
     "kimi-k2.8-preview",
     "kimi-k3",
     "kimi-k2.7-code",
@@ -112,6 +124,8 @@ KIMI_FIXED_SAMPLING_MODELS = {
 DEEPSEEK_PRO_REASONING_ALIASES = {"low": "high", "xhigh": "max"}
 
 THINKING_TOGGLE_MODELS = {
+    "hy4",
+    "deepseek-v4.1-flash-1017",
     "hy4-preview",
     "mimo-v2.6-pro",
     "mimo-v2.6-flash",

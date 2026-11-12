@@ -16,6 +16,12 @@ LLM (including vision and video understanding), text embedding, TTS, and speech-
 The catalog changes independently from plugin releases, so use the official pages below
 for the current model IDs and availability.
 
+`minimax-m2.7` is scheduled for retirement on November 17, 2026 and has been removed
+from the predefined models. Existing applications using it should select another model.
+Older IDs absent from the current catalog remain available for compatibility; verify
+their availability in the TokenHub console before use. Model prices shown in Dify are
+estimates and may differ from actual bills, including discounts and peak/off-peak rates.
+
 - [TokenHub model list](https://cloud.tencent.com/document/product/1823/130051)
 - [Language model calling overview](https://cloud.tencent.com/document/product/1823/130079)
 - [DeepSeek calling guide](https://cloud.tencent.com/document/product/1823/132248)

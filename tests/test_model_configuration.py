@@ -9,12 +9,30 @@ from dify_plugin.entities.model.message import UserPromptMessage
 from openai.types.chat import ChatCompletionChunk
 
 from models.llm.llm import TokenHubLargeLanguageModel
+from provider.tokenhub import TokenHubModelProvider
+from dify_plugin.errors.model import CredentialsValidateFailedError
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class ModelConfigurationTests(unittest.TestCase):
+    def test_provider_validation_uses_model_list(self):
+        provider = TokenHubModelProvider.__new__(TokenHubModelProvider)
+        with patch("provider.tokenhub.OpenAI") as client_class:
+            provider.validate_provider_credentials({"api_key": "test-key", "api_base": "https://example.test/v1"})
+            client_class.assert_called_once_with(api_key="test-key", base_url="https://example.test/v1", timeout=120)
+            client_class.return_value.models.list.assert_called_once_with()
+            client_class.return_value.chat.completions.create.assert_not_called()
+
+    def test_provider_validation_rejects_api_errors(self):
+        provider = TokenHubModelProvider.__new__(TokenHubModelProvider)
+        for error in (RuntimeError("401 Unauthorized"), RuntimeError("503 Service Unavailable")):
+            with self.subTest(error=str(error)), patch("provider.tokenhub.OpenAI") as client_class:
+                client_class.return_value.models.list.side_effect = error
+                with self.assertRaises(CredentialsValidateFailedError):
+                    provider.validate_provider_credentials({"api_key": "test-key"})
+
     @classmethod
     def setUpClass(cls):
         cls.schemas = [
@@ -28,7 +46,7 @@ class ModelConfigurationTests(unittest.TestCase):
         for schema in self.schemas:
             with self.subTest(model=schema.model):
                 rules = {rule.name: rule for rule in schema.parameter_rules}
-                limit_name = "max_completion_tokens" if schema.model == "kimi-k3" else "max_tokens"
+                limit_name = "max_completion_tokens" if schema.model in {"kimi-k3", "kimi-k3.1-pro", "kimi-k3.1-pro-highspeed"} else "max_tokens"
                 self.assertIn(limit_name, rules)
                 self.assertGreater(rules[limit_name].max, 0)
                 self.assertIsNotNone(schema.pricing)
@@ -64,6 +82,28 @@ class ModelConfigurationTests(unittest.TestCase):
              "temperature": 0.7, "top_p": 0.8},
         )
         self.assertEqual(result, {"max_tokens": 32768, "reasoning_effort": "low"})
+
+    def test_new_kimi_models_use_documented_parameters(self):
+        for model in ("kimi-k3.1-pro", "kimi-k3.1-pro-highspeed"):
+            with self.subTest(model=model):
+                result = self.adapter._build_extra_kwargs(model, {}, {
+                    "max_completion_tokens": 131072,
+                    "reasoning_effort": "low",
+                    "thinking": False,
+                    "temperature": 0.7,
+                    "top_p": 0.8,
+                })
+                self.assertEqual(result, {"max_completion_tokens": 131072, "reasoning_effort": "low"})
+
+    def test_new_deepseek_and_hy4_thinking(self):
+        for model in ("hy4", "deepseek-v4.1-flash-1017"):
+            with self.subTest(model=model):
+                result = self.adapter._build_extra_kwargs(model, {}, {
+                    "thinking": False,
+                    "reasoning_effort": "high",
+                })
+                self.assertEqual(result["extra_body"]["thinking"], {"type": "disabled"})
+                self.assertEqual(result["extra_body"]["reasoning_effort"], "high")
 
     def test_mimo_non_thinking_sampling_and_json_mode(self):
         result = self.adapter._build_extra_kwargs(

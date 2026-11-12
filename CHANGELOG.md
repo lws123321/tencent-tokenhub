@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Add Hy4, DeepSeek V4.1 Flash 1017, Kimi K3.1 Pro and HighSpeed, and MiniMax M3.1 Flash.
+- Enable image input for the DeepSeek V4 Flash 0731 factory-direct IDs.
+
+### Changed
+- Validate provider credentials through the TokenHub model list instead of a fixed model.
+
+### Removed
+- Remove MiniMax M2.7 from predefined models ahead of its announced retirement on 2026-11-17.
+
 ## [0.0.8] - 2026-10-09
 
 ### Added

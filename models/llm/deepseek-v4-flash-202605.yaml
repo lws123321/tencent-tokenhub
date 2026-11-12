@@ -8,6 +8,7 @@ features:
   - tool-call
   - multi-tool-call
   - stream-tool-call
+  - vision
   - structured-output
 model_properties:
   mode: chat
