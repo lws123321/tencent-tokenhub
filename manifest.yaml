@@ -2,6 +2,8 @@ version: 0.0.9
 type: plugin
 author: lws123321
 name: tencent-tokenhub
+tags:
+  - utilities
 label:
   en_US: Tencent TokenHub
   zh_Hans: 腾讯TokenHub
